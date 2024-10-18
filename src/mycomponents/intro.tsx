@@ -5,7 +5,7 @@ export const Intro = () => {
             Designed for Students. Built for Success.
           </div>
           <div className="text-white text-6xl font-semibold">
-            Yout Ticket to Top Grades
+            Your Ticket to Top Grades
           </div>
           <div className="mt-40 mb-10 border border-gray-700 rounded-full bg-gray-900 h-16 flex items-center w-96">
             <input className="mx-4 h-12 rounded-full bg-gray-900 text-white outline-none w-full" />

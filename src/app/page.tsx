@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <ScrollArea className="h-screen text-white">
       <div className="bg-black h-full w-screen">
-        {/* <Navbar /> */}
+        <Navbar />
         <Intro/>
         <SubjectStrip/>
         <Services/>
@@ -19,7 +19,7 @@ export default function Home() {
         <Faq/>
         <Footer/>
       </div>
-      <ScrollBar className="visible" orientation="vertical" />
+      <ScrollBar className="visible z-[100]" orientation="vertical" />
     </ScrollArea>
   );
 }

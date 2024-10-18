@@ -55,7 +55,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationMenuDemo() {
   return (
-    <div className="">
+    <div className="bg-black h-screen">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
