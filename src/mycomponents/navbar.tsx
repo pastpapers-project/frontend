@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, Coffee } from "lucide-react";
 
 
+
 const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
   <li>
     <NavigationMenuLink asChild>
@@ -146,6 +147,7 @@ export const Navbar: React.FC = () => {
                 )}
               </NavigationMenuItem>
             ))}
+
           </NavigationMenuList>
         </NavigationMenu>
         </div>

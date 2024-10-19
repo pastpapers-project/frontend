@@ -19,7 +19,7 @@ export default function Home() {
         <Faq/>
         <Footer/>
       </div>
-      <ScrollBar className="visible" orientation="vertical" />
+      <ScrollBar className="visible z-[100]" orientation="vertical" />
     </ScrollArea>
   );
 }
