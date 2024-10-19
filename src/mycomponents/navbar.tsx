@@ -22,7 +22,7 @@ const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
     <NavigationMenuLink asChild>
       <a
         href={href}
-        className="block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
+        className="block select-none space-y-1 rounded-3xl p-4 leading-none no-underline outline-none transition-colors hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200"
       >
         <div className="text-sm font-medium leading-none">{title}</div>
         <p className="line-clamp-2 text-sm leading-snug text-gray-500">
@@ -66,6 +66,7 @@ const menuItems: MenuItem[] = [
         href: "/pastpapers/a-levels",
         description: "Explore A Level past papers and study materials.",
       },
+      
     ],
   },
   {
@@ -108,7 +109,7 @@ const menuItems: MenuItem[] = [
 
 export const Navbar: React.FC = () => {
   return (
-    <div className="fixed w-full bg-gray-900/50 backdrop-blur-lg z-50">
+    <div className="fixed w-full bg-transparent backdrop-blur-lg z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         {/* Left Section: Logo and App Name */}
         <div className="flex items-center">
@@ -118,17 +119,17 @@ export const Navbar: React.FC = () => {
 
         {/* Center Section: Navigation for larger screens */}
         <div className="hidden lg:block">
-          <NavigationMenu>
-          <NavigationMenuList className="flex space-x-4">
+          <NavigationMenu >
+          <NavigationMenuList className="flex space-x-4 " >
             {menuItems.map((item, index) => (
-              <NavigationMenuItem key={index}>
+              <NavigationMenuItem key={index} >
                 {item.submenu ? (
                   <>
-                    <NavigationMenuTrigger className="text-white hover:bg-gray-700/50 rounded">
+                    <NavigationMenuTrigger className="text-white hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200 rounded">
                       {item.label}
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <div className="bg-transparent backdrop-blur-md rounded-2xl overflow-hidden">
+                    <NavigationMenuContent className="text-white bg-transparent leading-none no-underline outline-none">
+                      <div className="bg-black-700/70  rounded-2xl ">
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                           {item.submenu.map((subItem, subIndex) => (
                             <ListItem key={subIndex} {...subItem} />
@@ -139,7 +140,7 @@ export const Navbar: React.FC = () => {
                   </>
                 ) : (
                   <NavigationMenuLink
-                    className="text-white hover:bg-gray-700/50 px-3 py-2 rounded"
+                    className="text-white hover:backdrop-blur-md hover:bg-white/10  px-3 py-2 rounded"
                     href={item.href}
                   >
                     {item.label}
@@ -154,57 +155,111 @@ export const Navbar: React.FC = () => {
 
         {/* Right Section: Login/Signup */}
         <div className="hidden lg:flex space-x-2">
-          <Button variant="ghost" className="text-white hover:bg-gray-700/50">Login</Button>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">Signup</Button>
+          <Button variant="ghost" className="text-white hover:bg-gray-700/50 hover:text-white rounded">Login</Button>
+          <Button variant="outline" className="text-black border-white hover:bg-black hover:text-white rounded">Signup</Button>
         </div>
 
         {/* Mobile Menu */}
         <Sheet>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6 text-white" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-gray-900/95 text-white">
-            <nav className="flex flex-col space-y-4">
-              <h2 className="text-xl font-bold mb-4">Menu</h2>
-              <div className="space-y-2">
-                <h3 className="font-semibold">PastPapers</h3>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> O Levels
+        <SheetTrigger asChild className="md:hidden">
+          <Button variant="ghost" size="icon">
+            <Menu className="h-6 w-6 text-white" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent 
+          side="right" 
+          className="w-64 border-gray-700/50 flex flex-col bg-gray-800/40 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-gray-800/40"
+        >
+          {/* Menu Header */}
+          <div className="flex flex-col space-y-6 text-white flex-grow">
+            <div className="text-lg font-semibold">Menu</div>
+            <div className="border-b border-gray-600"></div>
+            <nav className="flex flex-col space-y-4 overflow-y-auto flex-grow">
+              {/* PastPapers Header */}
+              <div className="cursor-default font-semibold">PastPapers</div>
+              <div className=" flex flex-col space-y-1">
+              <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  O Levels
                 </Button>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> A Levels
-                </Button>
+                <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  A Levels
+              </Button>
               </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold">Pastprep AI</h3>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> O Levels
+
+              {/* Pastprep AI Header */}
+              <div className="cursor-default font-semibold">Pastprep AI</div>
+              <div className=" flex flex-col space-y-1">
+              <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  O Levels
                 </Button>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> A Levels
-                </Button>
+                <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  A Levels
+              </Button>
               </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold">Solve PastPapers</h3>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> O Levels
+
+              {/* Solve PastPapers Header */}
+              <div className="cursor-default font-semibold">Solve PastPapers</div>
+              <div className=" flex flex-col space-y-1">
+              <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  O Levels
                 </Button>
-                <Button variant="ghost" className="w-full justify-start text-white">
-                  <Coffee className="mr-2 h-4 w-4" /> A Levels
-                </Button>
+                <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
+                  <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
+                    <Coffee className="h-5 w-5" />
+                  </span>
+                  A Levels
+              </Button>
               </div>
-              <Button variant="ghost" className="w-full justify-start text-white">
+
+              {/* Contact Us Button */}
+              <Button 
+                variant="ghost" 
+                className="justify-start hover:opacity-80 active:opacity-60 transition-opacity duration-150 pl-0 text-white bg-transparent hover:bg-transparent">
                 Contact Us
               </Button>
             </nav>
-            <div className="absolute bottom-4 left-4 right-4 space-y-2">
-              <Button variant="outline" className="w-full text-white border-white">Login</Button>
-              <Button variant="default" className="w-full bg-white text-gray-900 hover:bg-gray-200">Signup</Button>
+          </div>
+
+          {/* Sticky Login/Signup Buttons at Bottom */}
+          <div className="border-t border-gray-600 pt-4">
+            <div className="flex flex-col space-y-4">
+              <Button variant="secondary" className="w-full rounded-full">
+                Login
+              </Button>
+              <Button variant="secondary" className="w-full rounded-full">
+                Signup
+              </Button>
             </div>
-          </SheetContent>
-        </Sheet>
+          </div>
+        </SheetContent>
+      </Sheet>
       </div>
     </div>
   );
