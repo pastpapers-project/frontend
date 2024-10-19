@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <ScrollArea className="h-screen text-white">
       <div className="bg-black h-full w-screen">
-        {/* <Navbar /> */}
+        <Navbar />
         <Intro/>
         <SubjectStrip/>
         <Services/>
