@@ -46,38 +46,38 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
         </div>
       </div>
       
-        <div className="mx-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {selectedCourse?.files.map((file: any, index: number) => (
-                <Link 
-                href={`/pastpapers/papers?file=${encodeURIComponent(JSON.stringify(file))}`} 
-                key={index}
-                >
-                <Card className="flex flex-col rounded-xl overflow-hidden border-[0.1px] border-gray-300 border-opacity-20 bg-white bg-opacity-10 hover:bg-opacity-0 transition-colors duration-200 cursor-pointer">
-                    <div className={`h-24 ${getGradientByType(file.type)} flex items-end justify-start pl-2`}>
-                    <span className="text-white text-xl">{file.type}</span>
+      <div className="mx-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {selectedCourse?.files.map((file: any, index: number) => (
+            <Link 
+            href={`/pastpapers/papers/${file.pid}`}
+            key={file.pid}
+            >
+            <Card className="flex flex-col rounded-xl overflow-hidden border-[0.1px] border-gray-300 border-opacity-20 bg-white bg-opacity-10 hover:bg-opacity-0 transition-colors duration-200 cursor-pointer">
+                <div className={`h-24 ${getGradientByType(file.type)} flex items-end justify-start pl-2 pb-2`}>
+                <span className="text-white text-xl">{file.type}</span>
+                </div>
+                <CardContent className="flex-grow p-0">
+                <div className="p-2">
+                    <div className="flex justify-start items-end mb-2">
+                    {file.variant > 0 && file.paper ? (
+                        <span className="text-sm text-white text-opacity-50 font-normal">
+                        Variant {file.variant} | Paper {file.paper}
+                        </span>
+                    ) : (
+                        <span className="text-sm text-white text-opacity-50 font-normal">
+                        All Papers | All Variants
+                        </span>
+                    )}
                     </div>
-                    <CardContent className="flex-grow p-0">
-                    <div className="p-2">
-                        <div className="flex justify-start items-end mb-2">
-                        {file.variant > 0 && file.paper ? (
-                            <span className="text-sm text-white text-opacity-50 font-normal">
-                            Variant {file.variant} | Paper {file.paper}
-                            </span>
-                        ) : (
-                            <span className="text-sm text-white text-opacity-50 font-normal">
-                            All Papers | All Variants
-                            </span>
-                        )}
-                        </div>
-                        <div className="flex justify-end items-end gap-2 text-white text-opacity-50 font-normal text-xl">
-                        <span>{file.tenure}</span>
-                        <span>{file.year}</span>
-                        </div>
+                    <div className="flex justify-end items-end gap-2 text-white text-opacity-50 font-normal text-xl">
+                    <span>{file.tenure}</span>
+                    <span>{file.year}</span>
                     </div>
-                    </CardContent>
-                </Card>
-                </Link>
-            ))}
+                </div>
+                </CardContent>
+            </Card>
+            </Link>
+        ))}
         </div>
 
     </div>
