@@ -130,22 +130,8 @@ export default function PaperPage({ params }: PageProps) {
     setProgress(100); // Reset to 100%
   };
 
-
-  // useEffect(() => {
-  //   if (timerActive && timeRemaining > 0) {
-  //     const totalTime = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
-  //     const progressPercentage = (timeRemaining / totalTime) * 100;
-  //     console.log(progressPercentage);
-  //     setProgress(progressPercentage);
-  //   }
-  // }, [timerActive, timeRemaining, hours, minutes, seconds]);  
-
-
-
-
   const pidNumber = parseInt(params.pid, 10);
 
-  // Find the file with the matching pid
   let file = null;
   let currentCourse = null;
   
@@ -226,8 +212,8 @@ export default function PaperPage({ params }: PageProps) {
             </TooltipProvider>
 
             <div className={`
-                overflow-hidden transition-all duration-300 ease-in-out
-                ${showTimer ? 'w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
+              overflow-hidden transition-all duration-300 ease-in-out
+              ${showTimer ? 'w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
                 <div className={`flex items-center gap-2 bg-white bg-opacity-5 rounded-2xl px-3 justify-center h-16 w-[320px] ${isTimeUp ? 'bg-red-500 bg-opacity-20' : ''}`}>
                   {/* Editable Timer Display */}
                   <Input
@@ -257,8 +243,8 @@ export default function PaperPage({ params }: PageProps) {
                     disabled={timerActive}
                   />
 
-                            {/* Play/Pause Button */}
-                          <TooltipProvider>
+                  {/* Play/Pause Button */}
+                  <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button 
@@ -279,8 +265,8 @@ export default function PaperPage({ params }: PageProps) {
                     </Tooltip>
                   </TooltipProvider>
 
-                            {/* Reset Button */}
-                            <TooltipProvider>
+                  {/* Reset Button */}
+                  <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button 
@@ -302,56 +288,59 @@ export default function PaperPage({ params }: PageProps) {
             </div>
           
 
-          {/* Bookmark Section */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="icon"
-                  className="rounded-2xl bg-white bg-opacity-5 h-16 w-16 "
-                  onClick={() => setIsBookmarked(!isBookmarked)}
-                >
-                  <Bookmark 
-                    className="h-5 w-5" 
-                    fill={isBookmarked ? "white" : "none"}
-                  />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            {/* Bookmark Section */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="rounded-2xl bg-white bg-opacity-5 h-16 w-16 "
+                    onClick={() => setIsBookmarked(!isBookmarked)}
+                  >
+                    <Bookmark 
+                      className="h-5 w-5" 
+                      fill={isBookmarked ? "white" : "none"}
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
-      </div>
 
-      <div className="flex justify-center items-center mt-4">
-        <div className="w-full max-w-7xl">
-          <Progress 
-            value={progress}
-            className="w-full h-7 bg-[#323639] rounded-none" 
-          />
-        </div>
-      </div>
-               
-
-      {/* PDF Viewer */}
-      <div className="flex justify-center items-center mt-0 mb-32">
-        <div className="w-full max-w-7xl bg-[#323639] rounded-xl shadow-lg ">
-          <div className="no-border rounded-lg overflow-hidden">
-            <iframe
-              src={file.pdf_url}
-              className="w-full h-[calc(100vh-200px)]"
-              title={paperTitle}
+        <div className="flex justify-center items-center mt-4">
+          <div className="w-full max-w-7xl">
+            <Progress 
+              value={progress}
+              className="w-full h-7 bg-[#323639] rounded-none" 
             />
           </div>
         </div>
-      </div>
+               
 
-      <Footer />
+        {/* PDF Viewer */}
+        <div className="flex justify-center items-center mt-0 mb-32">
+          <div className="w-full max-w-7xl bg-[#323639] rounded-xl shadow-lg ">
+            <div className="no-border rounded-lg overflow-hidden">
+              <iframe
+                src={file.pdf_url}
+                className="w-full h-[calc(100vh-200px)]"
+                title={paperTitle}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+    
     </div>
+    
     <ScrollBar className="visible z-[100]" orientation="vertical" />
+  
   </ScrollArea>
   );
 }

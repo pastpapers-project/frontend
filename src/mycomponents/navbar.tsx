@@ -108,7 +108,7 @@ const MobileMenuItem: React.FC<{ item: SubMenuItem }> = ({ item }) => (
       <span className="flex items-center justify-center w-8 h-8 border border-white/50 rounded-xl mr-2 text-white/50">
         <Coffee className="h-5 w-5" />
       </span>
-      {item.title.split(' ')[0]} {/* This will show just "O" or "A" from "O Levels" or "A Levels" */}
+      {item.title.split(' ')[0]} Levels
     </Button>
   </Link>
 );
@@ -118,10 +118,12 @@ export const Navbar: React.FC = () => {
     <div className="fixed w-full bg-transparent backdrop-blur-lg z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         {/* Left Section: Logo and App Name */}
-        <div className="flex items-center">
-          <Image className="h-8 w-auto" src={icon} alt="Logo" />
-          <p className="text-white font-bold text-2xl ml-2">{appname}</p>
-        </div>
+        <Link href="/">
+          <div className="flex items-center cursor-pointer">
+            <Image className="h-8 w-auto" src={icon} alt="Logo" />
+            <p className="text-white font-bold text-2xl ml-2">{appname}</p>
+          </div>
+        </Link>
 
         {/* Center Section: Navigation for larger screens */}
         <div className="hidden lg:block">
@@ -160,8 +162,8 @@ export const Navbar: React.FC = () => {
 
         {/* Right Section: Login/Signup */}
         <div className="hidden lg:flex space-x-2">
-          <Button variant="ghost" className="text-white hover:bg-gray-700/50 hover:text-white rounded">Login</Button>
-          <Button variant="outline" className="text-black border-white hover:bg-black hover:text-white rounded">Signup</Button>
+          <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white rounded">Login</Button>
+          <Button variant="outline" className="text-black border-white hover:bg-transparent hover:text-white rounded">Signup</Button>
         </div>
 
         {/* Mobile Menu */}
@@ -184,7 +186,7 @@ export const Navbar: React.FC = () => {
                   <React.Fragment key={index}>
                     {item.submenu ? (
                       <>
-                        <div className="cursor-default font-semibold">{item.label}</div>
+                        <div className="cursor-default font-semibold">{item.label} </div>
                         <div className="flex flex-col space-y-1">
                           {item.submenu.map((subItem, subIndex) => (
                             <MobileMenuItem key={subIndex} item={subItem} />

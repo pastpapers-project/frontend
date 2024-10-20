@@ -21,6 +21,7 @@ export default function notfound() {
             <div className="text-gray-500 text-[256px] font-bold">404</div>
           </div>
         </div>
+       
         <Footer />
       </div>
     </ScrollArea>
