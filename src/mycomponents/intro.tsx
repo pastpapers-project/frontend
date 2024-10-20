@@ -1,7 +1,7 @@
 export const Intro = () => {
     return (
         <div className="h-screen bg-cover bg-[url('./public/img2.png')] flex flex-col justify-center items-center">
-          <div className="border border-gray-600 bg-transparent h-10 w-64 rounded-full text-white text-xs flex justify-center items-center text-center mt-64 mb-10">
+          <div className="border border-gray-600 bg-transparent h-10 w-64 rounded-full text-white text-xs flex justify-center items-center text-center mt-12 mb-10">
             Designed for Students. Built for Success.
           </div>
           <div className="text-white text-6xl font-semibold">

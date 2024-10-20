@@ -2,7 +2,7 @@
 
 import PastPapersPage from "@/mycomponents/pastpaper";
 
-export default function ALevels() {
+export default function OLevels() {
   return (
     <PastPapersPage />
   );
