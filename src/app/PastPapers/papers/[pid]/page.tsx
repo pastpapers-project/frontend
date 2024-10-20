@@ -23,6 +23,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 
 interface PageProps {
   params: {
@@ -33,15 +34,17 @@ interface PageProps {
 
 export default function PaperPage({ params }: PageProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [timerActive, setTimerActive] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(0);
   const [inputMinutes, setInputMinutes] = useState('');
   const [isTimeUp, setIsTimeUp] = useState(false);
 
+  const [timerActive, setTimerActive] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
   const [hours, setHours] = useState('00');
   const [minutes, setMinutes] = useState('00');
   const [seconds, setSeconds] = useState('00');
+  const [progress, setProgress] = useState(100);
 
   // ... (other useEffects and functions)
 
@@ -51,12 +54,15 @@ export default function PaperPage({ params }: PageProps) {
     if (timerActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((prevTime) => {
-          if (prevTime <= 1) {
+          const newTime = prevTime - 1;
+          // Update progress here
+          setProgress((newTime / totalTime) * 100);
+          if (newTime <= 0) {
             setTimerActive(false);
             setIsTimeUp(true);
             return 0;
           }
-          return prevTime - 1;
+          return newTime;
         });
       }, 1000);
     }
@@ -64,7 +70,7 @@ export default function PaperPage({ params }: PageProps) {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [timerActive, timeRemaining]);
+  }, [timerActive, timeRemaining, totalTime]);
 
   useEffect(() => {
     const h = Math.floor(timeRemaining / 3600);
@@ -77,12 +83,8 @@ export default function PaperPage({ params }: PageProps) {
   }, [timeRemaining]);
 
   const handleTimeChange = (value: string, setter: React.Dispatch<React.SetStateAction<string>>, max: number) => {
-    // Remove any non-digit characters
     const cleanValue = value.replace(/\D/g, '');
-    
-    // Limit to two digits
     const twoDigitValue = cleanValue.slice(0, 2);
-    
     const numValue = parseInt(twoDigitValue, 10);
     if (!isNaN(numValue) && numValue >= 0 && numValue <= max) {
       setter(twoDigitValue);
@@ -106,27 +108,39 @@ export default function PaperPage({ params }: PageProps) {
         parseInt(minutes || '0') * 60 + 
         parseInt(seconds || '0');
       setTimeRemaining(totalSeconds);
+      setTotalTime(totalSeconds);
       setTimerActive(true);
       setIsTimeUp(false);
+      setProgress(100); // Start at 100%
     }
   };
 
-
   const toggleTimer = () => {
-    if (!showTimer) {
-      setShowTimer(true);
-    }
     setTimerActive(!timerActive);
   };
 
   const resetTimer = () => {
     setTimerActive(false);
     setTimeRemaining(0);
+    setTotalTime(0);
     setHours('00');
     setMinutes('00');
     setSeconds('00');
     setIsTimeUp(false);
+    setProgress(100); // Reset to 100%
   };
+
+
+  // useEffect(() => {
+  //   if (timerActive && timeRemaining > 0) {
+  //     const totalTime = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
+  //     const progressPercentage = (timeRemaining / totalTime) * 100;
+  //     console.log(progressPercentage);
+  //     setProgress(progressPercentage);
+  //   }
+  // }, [timerActive, timeRemaining, hours, minutes, seconds]);  
+
+
 
 
   const pidNumber = parseInt(params.pid, 10);
@@ -286,6 +300,7 @@ export default function PaperPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
+          
 
           {/* Bookmark Section */}
           <TooltipProvider>
@@ -311,9 +326,19 @@ export default function PaperPage({ params }: PageProps) {
         </div>
       </div>
 
+      <div className="flex justify-center items-center mt-4">
+        <div className="w-full max-w-7xl">
+          <Progress 
+            value={progress}
+            className="w-full h-7 bg-[#323639] rounded-none" 
+          />
+        </div>
+      </div>
+               
+
       {/* PDF Viewer */}
-      <div className="flex justify-center items-center mt-4 mb-32">
-        <div className="w-full max-w-7xl bg-[#323639] rounded-xl shadow-lg p-2">
+      <div className="flex justify-center items-center mt-0 mb-32">
+        <div className="w-full max-w-7xl bg-[#323639] rounded-xl shadow-lg ">
           <div className="no-border rounded-lg overflow-hidden">
             <iframe
               src={file.pdf_url}
