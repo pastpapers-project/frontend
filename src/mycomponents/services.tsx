@@ -46,7 +46,7 @@ export function Services() {
         <div className="text-xs text-white rounded-xl h-8 w-16 border border-gray-600 flex items-center justify-center">
           Services
         </div>
-        <div className="flex text-white text-5xl mt-10">Why We're the Right Choice</div>
+        <div className="flex text-white text-5xl mt-10">Why We are the Right Choice</div>
         <div className="text-gray-500 w-[600px] text-center mt-2 mb-10">
           Choose us for our AI-driven solutions, extensive past paper collection, and seamless paper management to further amplify your academic success.
         </div>

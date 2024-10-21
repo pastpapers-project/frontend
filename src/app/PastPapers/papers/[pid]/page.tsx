@@ -1,6 +1,6 @@
 'use client'
 
-import { Course, courses } from "@/app/appconfig/config";
+import { courses } from "@/app/appconfig/config";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import { Footer } from "@/mycomponents/footer";
@@ -10,7 +10,6 @@ import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Timer, Bookmark, Pause, Play, RotateCcw, AlarmClock } from "lucide-react";
@@ -35,7 +34,6 @@ interface PageProps {
 export default function PaperPage({ params }: PageProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
-  const [inputMinutes, setInputMinutes] = useState('');
   const [isTimeUp, setIsTimeUp] = useState(false);
 
   const [timerActive, setTimerActive] = useState(false);

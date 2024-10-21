@@ -19,6 +19,7 @@ export const Faq = () => {
         <Accordion type="multiple">
           {faq.map((i, index) => (
             <AccordionItem
+              key={index}
               className="bg-gray-900 rounded-2xl border-0 mb-2 w-96"
               value={`item-${index+1}`}
             >

@@ -6,7 +6,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Footer } from "@/mycomponents/footer";
 import { Navbar } from "@/mycomponents/navbar";
 import { cn } from "@/lib/utils";
-import { IconBrandGithub, IconBrandGoogle, IconBrandOnlyfans } from "@tabler/icons-react";
 
 export default function Contact() {
   return (

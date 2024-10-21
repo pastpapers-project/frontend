@@ -2,19 +2,14 @@
 
 import { Course } from "@/app/appconfig/config";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { CourseScreen } from "@/mycomponents/courseScreen";
 import { CourseScroll } from "@/mycomponents/courseScroll";
-import { Intro } from "@/mycomponents/intro";
 import { Navbar } from "@/mycomponents/navbar";
-import { Footer } from "@/mycomponents/footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from 'react';
 import { Input } from "@/mycomponents/input";
 import PastPrepImage from '../app/public/PastPrep.png';
 import Image from 'next/image';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 

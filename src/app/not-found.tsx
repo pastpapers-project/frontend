@@ -13,7 +13,7 @@ export default function notfound() {
             <div className="">
               <p className="text-6xl mb-2">Page Not Found</p>
               <p className="mb-2">
-                It looks like thge page you are trying to access doesn't exist
+                It looks like the page you are trying to access does not exist
                 or has been removed.
               </p>
               <Link href={"/"} className="bg-gray-800 rounded-xl p-1 border border-gray-700 hover:bg-gray-600 transition-all">Back to Home</Link>

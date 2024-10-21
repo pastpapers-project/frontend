@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card";
-import { FileText, FileCheck, Medal } from "lucide-react";
 import Link from 'next/link';
 
 export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
