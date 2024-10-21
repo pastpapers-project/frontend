@@ -56,8 +56,6 @@ export const BentoGridItem = ({
         className
       )}
     >
-
-
       <div
         className={cn(
           "absolute inset-0 w-full h-full z-0 transition-transform duration-200 group-hover/bento:scale-110 bg-opacity-85",
@@ -74,12 +72,11 @@ export const BentoGridItem = ({
         {header}
       </div>
       <div className="group-hover/bento:translate-x-2 transition duration-200 relative z-20">
-        {/* {icon} */}
         <div className=" text-white text-opacity-100 mb-2 mt-2 text-5xl font-thin">
           {title}
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent z-10" />
     </div>
   );
 };
