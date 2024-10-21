@@ -76,7 +76,7 @@ export const BentoGridItem = ({
           {title}
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent z-10" />
     </div>
   );
 };
