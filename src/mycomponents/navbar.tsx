@@ -21,10 +21,10 @@ const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
     <NavigationMenuLink asChild>
       <a
         href={href}
-        className="block select-none space-y-1 rounded-3xl p-4 leading-none no-underline outline-none transition-colors hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200"
+        className="block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none hover:backdrop-blur-md transition-colors hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200"
       >
         <div className="text-sm font-medium leading-none">{title}</div>
-        <p className="line-clamp-2 text-sm leading-snug text-gray-500">
+        <p className="line-clamp-2 text-sm leading-snug text-white text-opacity-25">
           {description}
         </p>
       </a>
@@ -142,13 +142,13 @@ export const Navbar: React.FC = () => {
                             {item.submenu.map((subItem, subIndex) => (
                               <ListItem key={subIndex} {...subItem} />
                             ))}
-                          </ul>
+                          </ul> 
                         </div>
                       </NavigationMenuContent>
                     </>
                   ) : (
                     <NavigationMenuLink
-                      className="text-white hover:backdrop-blur-md hover:bg-white/10  px-3 py-2 rounded"
+                      className="text-white hover:backdrop-blur-md hover:bg-white/10  px-3 py-2 transition-all duration-200  rounded"
                       href={item.href}
                     >
                       {item.label}

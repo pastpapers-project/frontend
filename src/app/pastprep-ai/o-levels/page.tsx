@@ -1,7 +1,7 @@
 import PastPrepAI from "@/mycomponents/pastprepai";
 
 
-export default function ChatPage() {
+export default function OlevelsChatPage() {
   return (
     <PastPrepAI />
   );
