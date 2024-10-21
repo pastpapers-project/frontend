@@ -268,7 +268,7 @@ export default function PaperPage({ params }: PageProps) {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button 
-                          variant="primary" 
+                          variant="ghost" 
                           size="icon" 
                           className="h-8 w-8"  
                           onClick={resetTimer}
