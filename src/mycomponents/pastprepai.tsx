@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from 'react';
-import { Input } from "@/components/ui/input";
+import { Input } from "@/mycomponents/input";
 import PastPrepImage from '../app/public/PastPrep.png';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

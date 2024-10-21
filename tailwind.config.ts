@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 import plugin from 'tailwindcss/plugin';
 import { blackA, mauve, violet, indigo, purple } from '@radix-ui/colors';
+import defaultTheme from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
+
 
 const config: Config = {
   darkMode: ["class"],
@@ -70,9 +73,9 @@ const config: Config = {
         }
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        // lg: 'var(--radius)',
+        // md: 'calc(var(--radius) - 2px)',
+        // sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
         'accordion-down': {
@@ -128,7 +131,7 @@ const config: Config = {
         exitToLeft: "exitToLeft 250ms ease",
         exitToRight: "exitToRight 250ms ease",
       },
-	  backdropFilter: {
+	    backdropFilter: {
         'none': 'none',
         'blur': 'blur(20px)',
       },
@@ -148,7 +151,11 @@ const config: Config = {
         }),
       });
     }),
+
   ],
 };
+
+
+
 
 export default config;
