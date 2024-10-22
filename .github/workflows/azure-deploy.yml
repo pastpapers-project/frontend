@@ -2,16 +2,13 @@ name: Azure Deploy
 
 on:
   push:
-    branches: [ "main" ]  # or your default branch
+    branches: [ "main" ]
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: pastprep    # Your Azure Web App name
+  AZURE_WEBAPP_NAME: pastprep
   AZURE_WEBAPP_PACKAGE_PATH: '.'
-  NODE_VERSION: '20.x'           # Matches your Azure configuration
-
-permissions:
-  contents: read
+  NODE_VERSION: '20.x'
 
 jobs:
   build:
@@ -27,11 +24,31 @@ jobs:
 
     - name: npm install and build
       run: |
-        npm install
+        npm ci
         npm run build
 
-    - name: Zip artifact for deployment
-      run: zip release.zip ./* .next -r
+    - name: Create deployment package
+      run: |
+        # Create deployment directory
+        mkdir deployment
+        
+        # Copy standalone output
+        cp -r .next/standalone/* deployment/
+        
+        # Copy public assets
+        mkdir -p deployment/public
+        cp -r public/* deployment/public/
+        
+        # Copy static files from .next/static
+        mkdir -p deployment/.next/static
+        cp -r .next/static/* deployment/.next/static/
+        
+        # Copy config
+        cp next.config.mjs deployment/
+        
+        # Create zip with only required files
+        cd deployment
+        zip -r ../release.zip .
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
@@ -40,8 +57,6 @@ jobs:
         path: release.zip
 
   deploy:
-    permissions:
-      contents: none
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -54,9 +69,6 @@ jobs:
       with:
         name: node-app
 
-    - name: Unzip artifact for deployment
-      run: unzip release.zip
-
     - name: 'Azure Login'
       uses: azure/login@v1
       with:
@@ -68,4 +80,4 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZUREWEBAPP_PUBLISHPROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        package: release.zip
