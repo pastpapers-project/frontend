@@ -22,10 +22,13 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: npm install and build
+    - name: Install dependencies and sharp
       run: |
         npm ci
-        npm run build
+        npm install sharp
+
+    - name: Build
+      run: npm run build
 
     - name: Create deployment package
       run: |
@@ -35,9 +38,11 @@ jobs:
         # Copy standalone output
         cp -r .next/standalone/* deployment/
         
-        # Copy public assets
-        mkdir -p deployment/public
-        cp -r public/* deployment/public/
+        # Copy public assets if directory exists
+        if [ -d "public" ]; then
+          mkdir -p deployment/public
+          cp -r public/* deployment/public/ || true
+        fi
         
         # Copy static files from .next/static
         mkdir -p deployment/.next/static
@@ -45,6 +50,12 @@ jobs:
         
         # Copy config
         cp next.config.mjs deployment/
+        
+        # Create startup script
+        echo '#!/bin/bash
+        cd /home/site/wwwroot
+        node server.js' > deployment/startup.sh
+        chmod +x deployment/startup.sh
         
         # Create zip with only required files
         cd deployment
