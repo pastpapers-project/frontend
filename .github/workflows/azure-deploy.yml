@@ -15,12 +15,15 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'  # Fixed version syntax
-        cache: 'npm'  # Enable npm caching
+        node-version: '20.x'
+        cache: 'npm'
     
     - name: Install dependencies
       run: |
-        npm ci --only=production
+        # Install all dependencies including devDependencies for build
+        npm ci
+        # Install additional required packages
+        npm install sharp @radix-ui/colors
         
     - name: Build Next.js app
       run: |
@@ -41,7 +44,10 @@ jobs:
     
     - name: Install production dependencies in deployment directory
       working-directory: deployment
-      run: npm ci --only=production --ignore-scripts
+      run: |
+        # Install production dependencies including sharp
+        npm ci --only=production --ignore-scripts
+        npm install sharp @radix-ui/colors --save-prod
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -62,6 +68,10 @@ jobs:
           {
             "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
             "value": "false"
+          },
+          {
+            "name": "NODE_ENV",
+            "value": "production"
           }
         ]'
         mask-inputs: false
