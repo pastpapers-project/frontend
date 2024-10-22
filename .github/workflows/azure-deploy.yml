@@ -49,7 +49,8 @@ jobs:
         require("./server.js");' > deployment/index.js
         
         # Create web.config
-        echo '<?xml version="1.0" encoding="utf-8"?>
+        cat > deployment/web.config << 'EOL'
+<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <system.webServer>
     <webSocket enabled="false" />
@@ -81,12 +82,15 @@ jobs:
     </security>
     <httpErrors existingResponse="PassThrough" />
   </system.webServer>
-</configuration>' > deployment/web.config
+</configuration>
+EOL
         
         # Create startup script
-        echo '#!/bin/bash
+        cat > deployment/startup.sh << 'EOL'
+#!/bin/bash
 cd /home/site/wwwroot
-node index.js' > deployment/startup.sh
+node index.js
+EOL
         chmod +x deployment/startup.sh
         
         # Create zip with only required files
