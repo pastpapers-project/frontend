@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { PaperSearch } from "@/mycomponents/pastpapersSearch";
 
 interface PageProps {
   params: {
@@ -152,10 +153,10 @@ export default function PaperPage({ params }: PageProps) {
     <ScrollArea className="h-screen text-white">
     <div className="bg-black h-full w-screen">
       <Navbar />
-      <Intro />
+      {/* <PaperSearch /> */}
       
       {/* Breadcrumb and Timer/Bookmark Container */}
-      <div className="container mx-auto px-2  flex justify-between items-start max-w-7xl">
+      <div className="container mx-auto px-2  flex justify-between items-start max-w-7xl pt-32">
         {/* Left Column - Breadcrumb and Description */}
         <div className="flex-1">
           <Breadcrumb>
@@ -322,7 +323,7 @@ export default function PaperPage({ params }: PageProps) {
 
         {/* PDF Viewer */}
         <div className="flex justify-center items-center mt-0 mb-32">
-          <div className="w-full max-w-7xl bg-[#323639] rounded-xl shadow-lg ">
+          <div className="w-full max-w-7xl bg-[#323639] shadow-lg ">
             <div className="no-border rounded-lg overflow-hidden">
               <iframe
                 src={file.pdf_url}

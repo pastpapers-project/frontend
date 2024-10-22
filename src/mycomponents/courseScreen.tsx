@@ -24,61 +24,64 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 py-4 lg:py-8">
       <div>
-        <div className="mx-10 mt-20">
+        <div className="mb-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/" className="text-xl">O levels</BreadcrumbLink>
+                <BreadcrumbLink href="/" className="text-lg lg:text-xl">O levels</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/components" className="text-xl font-white">{selectedCourse?.name} ({selectedCourse?.id})</BreadcrumbLink>
+                <BreadcrumbLink className="text-lg lg:text-xl">
+                  {selectedCourse?.name} {selectedCourse?.id && `${selectedCourse.id}`}
+                </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
 
-        <div className="mx-10">
-          <p className="text-gray-500">Access a vast collection of past papers to help you prepare, practice, and excel in your exams with ease.</p>
+        <div>
+          <p className="text-gray-500 text-sm lg:text-base">
+            Access a vast collection of past papers to help you prepare, practice, and excel in your exams with ease.
+          </p>
         </div>
       </div>
       
-      <div className="mx-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {selectedCourse?.files.map((file: any, index: number) => (
-            <Link 
+          <Link 
             href={`/pastpapers/papers/${file.pid}`}
             key={file.pid}
-            >
+          >
             <Card className="flex flex-col rounded-xl overflow-hidden border-[0.1px] border-gray-300 border-opacity-20 bg-white bg-opacity-10 hover:bg-opacity-0 transition-colors duration-200 cursor-pointer">
-                <div className={`h-24 ${getGradientByType(file.type)} flex items-end justify-start pl-2 pb-2`}>
-                <span className="text-white text-xl">{file.type}</span>
-                </div>
-                <CardContent className="flex-grow p-0">
+              <div className={`h-20 lg:h-24 ${getGradientByType(file.type)} flex items-end justify-start pl-2 pb-2`}>
+                <span className="text-white text-lg lg:text-xl">{file.type}</span>
+              </div>
+              <CardContent className="flex-grow p-0">
                 <div className="p-2">
-                    <div className="flex justify-start items-end mb-2">
+                  <div className="flex justify-start items-end mb-2">
                     {file.variant > 0 && file.paper ? (
-                        <span className="text-sm text-white text-opacity-50 font-normal">
+                      <span className="text-xs lg:text-sm text-white text-opacity-50 font-normal">
                         Variant {file.variant} | Paper {file.paper}
-                        </span>
+                      </span>
                     ) : (
-                        <span className="text-sm text-white text-opacity-50 font-normal">
+                      <span className="text-xs lg:text-sm text-white text-opacity-50 font-normal">
                         All Papers | All Variants
-                        </span>
+                      </span>
                     )}
-                    </div>
-                    <div className="flex justify-end items-end gap-2 text-white text-opacity-50 font-normal text-xl">
+                  </div>
+                  <div className="flex justify-end items-end gap-2 text-white text-opacity-50 font-normal text-lg lg:text-xl">
                     <span>{file.tenure}</span>
                     <span>{file.year}</span>
-                    </div>
+                  </div>
                 </div>
-                </CardContent>
+              </CardContent>
             </Card>
-            </Link>
+          </Link>
         ))}
-        </div>
-
+      </div>
     </div>
   );
 };

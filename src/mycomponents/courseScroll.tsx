@@ -50,27 +50,26 @@ const getIconForCourse = (courseName: string) => {
 
 export const CourseScroll = ({ setSelectedCourse }: any) => {
   return (
-    <ScrollArea className="w-52 h-full m-5">
-      {courses.map((course) => {
-        const IconComponent = getIconForCourse(course.name);
-        return (
-          <div
-            key={course.name}
-            className="flex items-center justify-between hover:cursor-pointer p-3 hover:bg-gray-100 font-bold hover:bg-opacity-5 rounded-xl group"
-            onClick={() => { setSelectedCourse(course); }}
-          >
-            <div className="flex items-center gap-2">
-              <IconComponent className="w-5 h-5 text-gray-500 group-hover:text-sky-500 transition-colors duration-200" />
-              <p className="group-hover:text-sky-500 transition-colors duration-200">{course.name}</p>
+    <ScrollArea className="h-[calc(100vh-200px)] p-4">
+      <div className="space-y-2">
+        {courses.map((course) => {
+          const IconComponent = getIconForCourse(course.name);
+          return (
+            <div
+              key={course.name}
+              className="flex items-center justify-between hover:cursor-pointer p-3 hover:bg-gray-100 font-bold hover:bg-opacity-5 rounded-xl group"
+              onClick={() => { setSelectedCourse(course); }}
+            >
+              <div className="flex items-center gap-2">
+                <IconComponent className="w-5 h-5 text-gray-500 group-hover:text-sky-500 transition-colors duration-200" />
+                <p className="group-hover:text-sky-500 transition-colors duration-200 text-sm lg:text-base">{course.name}</p>
+              </div>
+              <p className="text-gray-500 text-sm">{course.files.length}</p>
             </div>
-            <p className="text-gray-500">{course.files.length}</p>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
       <ScrollBar className="visible z-[100]" orientation="vertical" />
     </ScrollArea>
   );
 };
-
-
-export default CourseScroll;
