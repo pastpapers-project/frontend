@@ -13,7 +13,7 @@ export default function Home() {
       <div className="bg-black h-full w-screen">
         <Navbar />
         <Intro/>
-        <SubjectStrip/>
+        {/* <SubjectStrip/> */}
         <Services/>
         <Value/>
         <Faq/>

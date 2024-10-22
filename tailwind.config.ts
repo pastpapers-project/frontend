@@ -15,6 +15,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      
       colors: {
         ...blackA,
         ...mauve,
@@ -118,6 +119,11 @@ const config: Config = {
           from: { opacity: "1" },
           to: { opacity: "0" },
         },
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -130,6 +136,7 @@ const config: Config = {
         enterFromRight: "enterFromRight 250ms ease",
         exitToLeft: "exitToLeft 250ms ease",
         exitToRight: "exitToRight 250ms ease",
+        scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
       },
 	    backdropFilter: {
         'none': 'none',
@@ -154,8 +161,5 @@ const config: Config = {
 
   ],
 };
-
-
-
 
 export default config;
