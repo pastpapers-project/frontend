@@ -3,29 +3,65 @@ name: Deploy to Azure Web App
 on:
   push:
     branches:
-      - main  # or your default branch name
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '18.x'  # or your preferred Node.js version
+        node-version: '20-lts'  # Matching your Azure Web App runtime
+        cache: 'npm'  # Enable npm caching
     
     - name: Install dependencies
-      run: npm ci
-    
+      run: |
+        npm ci --only=production
+        
     - name: Build Next.js app
-      run: npm run build
+      run: |
+        npm run build
+        
+    - name: Organize deployment files
+      run: |
+        # Create deployment package with only necessary files
+        mkdir deployment
+        cp -r .next deployment/
+        cp -r public deployment/
+        cp package.json deployment/
+        cp package-lock.json deployment/
+        cp next.config.js deployment/
+        
+        # Create production-only package.json
+        node -e "const pkg=require('./package.json'); delete pkg.devDependencies; require('fs').writeFileSync('deployment/package.json', JSON.stringify(pkg, null, 2));"
+    
+    - name: Install production dependencies in deployment directory
+      working-directory: deployment
+      run: npm ci --only=production --ignore-scripts
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'Pastprep'  # replace with your app name
+        app-name: 'Pastprep'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
+        package: deployment
+        
+    - name: Configure startup command
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: 'Pastprep'
+        app-settings-json: '[
+          {
+            "name": "WEBSITE_RUN_FROM_PACKAGE",
+            "value": "1"
+          },
+          {
+            "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+            "value": "false"
+          }
+        ]'
+        mask-inputs: false
