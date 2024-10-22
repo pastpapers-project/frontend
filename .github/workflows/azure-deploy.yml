@@ -6,8 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: Pastprep
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  AZURE_WEBAPP_NAME: pastprep
   NODE_VERSION: '20.x'
 
 jobs:
@@ -22,7 +21,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: Install dependencies and sharp
+    - name: Install dependencies
       run: |
         npm ci
         npm install sharp
@@ -30,7 +29,7 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Create deployment package
+    - name: Prepare deployment
       run: |
         # Create deployment directory
         mkdir deployment
@@ -38,23 +37,57 @@ jobs:
         # Copy standalone output
         cp -r .next/standalone/* deployment/
         
-        # Copy public assets if directory exists
-        if [ -d "public" ]; then
-          mkdir -p deployment/public
-          cp -r public/* deployment/public/ || true
-        fi
-        
-        # Copy static files from .next/static
+        # Ensure .next directory structure
         mkdir -p deployment/.next/static
         cp -r .next/static/* deployment/.next/static/
         
-        # Copy config
+        # Copy next.config
         cp next.config.mjs deployment/
+        
+        # Create server.js wrapper
+        echo 'process.env.NODE_ENV = "production";
+        process.env.PORT = process.env.PORT || 8080;
+        require("./server.js");' > deployment/index.js
+        
+        # Create web.config
+        echo '<?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <system.webServer>
+            <webSocket enabled="false" />
+            <handlers>
+              <add name="iisnode" path="index.js" verb="*" modules="iisnode"/>
+            </handlers>
+            <rewrite>
+              <rules>
+                <rule name="NodeInspector" patternSyntax="ECMAScript" stopProcessing="true">
+                  <match url="^index.js\/debug[\/]?" />
+                </rule>
+                <rule name="StaticContent">
+                  <action type="Rewrite" url="public{REQUEST_URI}"/>
+                </rule>
+                <rule name="DynamicContent">
+                  <conditions>
+                    <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="True"/>
+                  </conditions>
+                  <action type="Rewrite" url="index.js"/>
+                </rule>
+              </rules>
+            </rewrite>
+            <security>
+              <requestFiltering>
+                <hiddenSegments>
+                  <remove segment="bin"/>
+                </hiddenSegments>
+              </requestFiltering>
+            </security>
+            <httpErrors existingResponse="PassThrough" />
+          </system.webServer>
+        </configuration>' > deployment/web.config
         
         # Create startup script
         echo '#!/bin/bash
         cd /home/site/wwwroot
-        node server.js' > deployment/startup.sh
+        node index.js' > deployment/startup.sh
         chmod +x deployment/startup.sh
         
         # Create zip with only required files
