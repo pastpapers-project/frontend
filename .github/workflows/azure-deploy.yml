@@ -1,77 +1,66 @@
-name: Deploy to Azure Web App
+name: Azure Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]  # or your default branch
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: pastprep    # Your Azure Web App name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '20.x'           # Matches your Azure configuration
+
+permissions:
+  contents: read
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
+    - uses: actions/checkout@v3
+
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
-        node-version: '20.x'
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-    
-    - name: Install dependencies
+
+    - name: npm install and build
       run: |
-        # Install all dependencies including devDependencies for build
-        npm ci
-        # Install additional required packages
-        npm install sharp @radix-ui/colors
-        
-    - name: Build Next.js app
-      run: |
+        npm install
         npm run build
-        
-    - name: Organize deployment files
-      run: |
-        # Create deployment package with only necessary files
-        mkdir deployment
-        cp -r .next deployment/
-        cp -r public deployment/
-        cp package.json deployment/
-        cp package-lock.json deployment/
-        cp next.config.mjs deployment/
-        
-        # Create production-only package.json
-        node -e "const pkg=require('./package.json'); delete pkg.devDependencies; require('fs').writeFileSync('deployment/package.json', JSON.stringify(pkg, null, 2));"
-    
-    - name: Install production dependencies in deployment directory
-      working-directory: deployment
-      run: |
-        # Install production dependencies including sharp
-        npm ci --only=production --ignore-scripts
-        npm install sharp @radix-ui/colors --save-prod
-    
-    - name: Deploy to Azure Web App
+
+    - name: Zip artifact for deployment
+      run: zip release.zip ./* .next -r
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: release.zip
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+
+    - name: Unzip artifact for deployment
+      run: unzip release.zip
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'Pastprep'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: deployment
-        
-    - name: Configure startup command
-      uses: azure/appservice-settings@v1
-      with:
-        app-name: 'Pastprep'
-        app-settings-json: '[
-          {
-            "name": "WEBSITE_RUN_FROM_PACKAGE",
-            "value": "1"
-          },
-          {
-            "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-            "value": "false"
-          },
-          {
-            "name": "NODE_ENV",
-            "value": "production"
-          }
-        ]'
-        mask-inputs: false
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZUREWEBAPP_PUBLISHPROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
