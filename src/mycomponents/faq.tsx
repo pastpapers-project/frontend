@@ -19,13 +19,17 @@ export const Faq = () => {
         Frequently Asked Questions
       </h2>
 
+      <div className="text-gray-500 w-full max-w-[600px] mx-auto px-4 text-center mt-2 mb-10 text-sm md:text-base">
+      Find quick answers to common questions about our services, features, and support.
+      </div>
+
       {/* Accordion Container */}
-      <div className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-2xl lg:max-w-3xl flex flex-col justify-center items-center mt-6 md:mt-10">
+      <div className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-2xl lg:max-w-3xl flex flex-col justify-center items-center mt-6 md:mt-10 ">
         <Accordion type="multiple" className="w-full">
           {faq.map((i, index) => (
             <AccordionItem
               key={index}
-              className="bg-gray-900 rounded-2xl border-0 mb-2"
+              className="bg-white bg-opacity-10 rounded-2xl  mb-2 border-gray-700"
               value={`item-${index + 1}`}
             >
               <AccordionTrigger className="p-3 sm:p-4 text-sm sm:text-base text-left">

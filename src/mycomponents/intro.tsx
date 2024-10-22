@@ -68,5 +68,3 @@ export const Intro = () => {
     </div>
   );
 };
-
-export default Intro;
