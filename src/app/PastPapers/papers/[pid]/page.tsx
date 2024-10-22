@@ -12,7 +12,7 @@ import {
   BreadcrumbItem,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Timer, Bookmark, Pause, Play, RotateCcw, AlarmClock } from "lucide-react";
+import { Timer, Bookmark, Pause, Play, RotateCcw, AlarmClock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import {
@@ -45,7 +45,8 @@ export default function PaperPage({ params }: PageProps) {
   const [seconds, setSeconds] = useState('00');
   const [progress, setProgress] = useState(100);
 
-  // ... (other useEffects and functions)
+  
+  const [isMobileTimerExpanded, setIsMobileTimerExpanded] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -151,68 +152,141 @@ export default function PaperPage({ params }: PageProps) {
 
   return (
     <ScrollArea className="h-screen text-white">
-    <div className="bg-black h-full w-screen">
-      <Navbar />
-      {/* <PaperSearch /> */}
-      
-      {/* Breadcrumb and Timer/Bookmark Container */}
-      <div className="container mx-auto px-2  flex justify-between items-start max-w-7xl pt-32">
-        {/* Left Column - Breadcrumb and Description */}
-        <div className="flex-1">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <span className="text-xl text-white text-opacity-70">
-                  O levels
-                </span>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <span className="text-xl text-white text-opacity-70">
-                  {currentCourse.name} ({currentCourse.id})
-                </span>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <span className="text-xl text-white">
-                  {paperTitle}
-                </span>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <p className="text-gray-500 mt-4 max-w-2xl">
-            Access a vast collection of past papers to help you prepare, practice, and excel in your exams with ease.
-          </p>
+      <div className="bg-black h-full w-screen">
+        <Navbar />
+        
+
+        {/* Mobile Timer Panel */}
+        <div className={`
+          fixed bottom-0 left-0 right-0 bg-black bg-opacity-95 
+          transition-transform duration-300 ease-in-out z-50
+          lg:hidden
+          ${isMobileTimerExpanded ? 'translate-y-0' : 'translate-y-full'}
+        `}>
+          <div className="p-4 space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold">Timer</h3>
+              <Button 
+                variant="ghost" 
+                onClick={() => setIsMobileTimerExpanded(false)}
+              >
+                <X className="h-6 w-6" />
+              </Button>
+            </div>
+            
+            <div className="flex items-center justify-center gap-2">
+              <Input
+                type="text"
+                value={hours}
+                onChange={(e) => handleTimeChange(e.target.value, setHours, 99)}
+                onBlur={(e) => handleBlur(e.target.value, setHours)}
+                className="w-16 text-center bg-white bg-opacity-10"
+                disabled={timerActive}
+              />
+              <span>:</span>
+              <Input
+                type="text"
+                value={minutes}
+                onChange={(e) => handleTimeChange(e.target.value, setMinutes, 59)}
+                onBlur={(e) => handleBlur(e.target.value, setMinutes)}
+                className="w-16 text-center bg-white bg-opacity-10"
+                disabled={timerActive}
+              />
+              <span>:</span>
+              <Input
+                type="text"
+                value={seconds}
+                onChange={(e) => handleTimeChange(e.target.value, setSeconds, 59)}
+                onBlur={(e) => handleBlur(e.target.value, setSeconds)}
+                className="w-16 text-center bg-white bg-opacity-10"
+                disabled={timerActive}
+              />
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <Button 
+                variant="outline"
+                onClick={timerActive ? toggleTimer : startTimer}
+                className="w-24 text-black"
+              >
+                {timerActive ? 'Pause' : 'Start'}
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={resetTimer}
+                className="w-24 text-black"
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
         </div>
 
-        {/* Right Column - Timer and Bookmark */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
+        
+        {/* Breadcrumb and Timer/Bookmark Container */}
+        <div className="container mx-auto px-4 lg:px-2 flex flex-col lg:flex-row lg:justify-between lg:items-start max-w-7xl pt-20 lg:pt-32 gap-4 lg:gap-0">
+          {/* Left Column - Breadcrumb and Description */}
+          <div className="flex-1 w-full lg:w-auto">
+            <Breadcrumb>
+              <BreadcrumbList className="flex-wrap">
+                <BreadcrumbItem>
+                  <span className="text-base lg:text-xl text-white text-opacity-70">
+                    O levels
+                  </span>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <span className="text-base lg:text-xl text-white text-opacity-70">
+                    {currentCourse.name} ({currentCourse.id})
+                  </span>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <span className="text-base lg:text-xl text-white">
+                    {paperTitle}
+                  </span>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <p className="text-gray-500 mt-4 max-w-2xl text-sm lg:text-base">
+              Access a vast collection of past papers to help you prepare, practice, and excel in your exams with ease.
+            </p>
+          </div>
+  
+          {/* Right Column - Timer and Bookmark */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="rounded-2xl bg-white bg-opacity-5 h-16 w-16"
-                    onClick={() => setShowTimer(!showTimer)}
+                    className="rounded-xl lg:rounded-2xl bg-white bg-opacity-5 h-12 w-12 lg:h-16 lg:w-16"
+                    onClick={() => {
+                      if (window.innerWidth < 1024) {
+                        setIsMobileTimerExpanded(true);
+                      } else {
+                        setShowTimer(!showTimer);
+                      }
+                    }}
                   >
                     {isTimeUp ? (
-                      <AlarmClock className="h-10 w-10 text-red-500 animate-pulse" />
+                      <AlarmClock className="h-6 w-6 lg:h-10 lg:w-10 text-red-500 animate-pulse" />
                     ) : (
-                      <Timer className="h-10 w-10" />
+                      <Timer className="h-6 w-6 lg:h-10 lg:w-10" />
                     )}
                   </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Toggle Timer</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <div className={`
-              overflow-hidden transition-all duration-300 ease-in-out
-              ${showTimer ? 'w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Toggle Timer</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+  
+              <div className={`
+                hidden lg:block overflow-hidden transition-all duration-300 ease-in-out
+                ${showTimer ? 'w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
                 <div className={`flex items-center gap-2 bg-white bg-opacity-5 rounded-2xl px-3 justify-center h-16 w-[320px] ${isTimeUp ? 'bg-red-500 bg-opacity-20' : ''}`}>
                   {/* Editable Timer Display */}
                   <Input
@@ -285,16 +359,15 @@ export default function PaperPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
-          
-
-            {/* Bookmark Section */}
+  
+            {/* Bookmark Button */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="rounded-2xl bg-white bg-opacity-5 h-16 w-16 "
+                    className="rounded-xl lg:rounded-2xl bg-white bg-opacity-5 h-12 w-12 lg:h-16 lg:w-16"
                     onClick={() => setIsBookmarked(!isBookmarked)}
                   >
                     <Bookmark 
@@ -310,36 +383,33 @@ export default function PaperPage({ params }: PageProps) {
             </TooltipProvider>
           </div>
         </div>
-
+  
+        {/* Progress Bar */}
         <div className="flex justify-center items-center mt-4">
-          <div className="w-full max-w-7xl">
+          <div className="w-full max-w-7xl px-4 lg:px-2">
             <Progress 
               value={progress}
-              className="w-full h-7 bg-[#323639] rounded-none" 
+              className="w-full h-4 lg:h-7 bg-[#323639] rounded-none" 
             />
           </div>
         </div>
-               
-
+        
         {/* PDF Viewer */}
         <div className="flex justify-center items-center mt-0 mb-32">
-          <div className="w-full max-w-7xl bg-[#323639] shadow-lg ">
-            <div className="no-border rounded-lg overflow-hidden">
+          <div className="w-full max-w-7xl px-4 lg:px-2  ">
+            <div className="no-border  overflow-hidden">
               <iframe
                 src={file.pdf_url}
-                className="w-full h-[calc(100vh-200px)]"
+                className="w-full h-[calc(100vh-280px)] lg:h-[calc(100vh-200px)]"
                 title={paperTitle}
               />
             </div>
           </div>
         </div>
-
-        <Footer />
-    
-    </div>
-    
-    <ScrollBar className="visible z-[100]" orientation="vertical" />
   
-  </ScrollArea>
+        <Footer />
+      </div>
+      <ScrollBar className="visible z-[100]" orientation="vertical" />
+    </ScrollArea>
   );
 }
