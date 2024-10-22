@@ -1,3 +1,6 @@
 {
-    "azureAutomation.directory.basePath": "d:\\UTILITY\\Vs code"
+    "azureAutomation.directory.basePath": "d:\\UTILITY\\Vs code",
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/d73bfc9c-dc4a-4313-9a52-bbf664c96ce1/resourceGroups/yousuf4594_group/providers/Microsoft.Web/sites/Pastprep",
+    "appService.deploySubpath": "."
 }
