@@ -1,6 +1,6 @@
 export const PaperSearch = () => {
     return (
-        <div className="min-h-screen bg-cover bg-[url('./public/img1.png')] relative 
+        <div className="min-h-screen bg-cover bg-[url('./public/img1.jpg')] relative 
             after:absolute after:content-[''] after:inset-0 
             after:shadow-[inset_0_0_250px_rgba(0,0,0,1)] 
             after:pointer-events-none">

@@ -12,7 +12,7 @@ export default function Contact() {
     <ScrollArea className="h-screen text-white">
       <div className="bg-black h-full w-screen">
         <Navbar />
-        <div className="h-screen bg-cover bg-[url('./public/img2.png')] ">
+        <div className="h-screen bg-cover bg-[url('./public/img2.jpg')] ">
             <div className="backdrop-blur-3xl h-screen w-screen flex flex-col justify-center items-center">
             <div className="flex flex-col items-center">
               <p className="text-7xl mb-4">Contact Us</p>
@@ -24,8 +24,8 @@ export default function Contact() {
                     <div>
                       <div className="flex items-center mb-4">
                           <div className="bg-transparent bg-opacity-20 p-2 rounded-xl border-[0.5px] border-white border-opacity-10">    
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white-opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.908c.969 0 1.371 1.24.588 1.81l-3.977 2.892a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.539 1.118L12 17.75l-3.977 2.892c-.784.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.364-1.118L3.66 10.1c-.783-.57-.381-1.81.588-1.81h4.908a1 1 0 00.95-.69l1.518-4.674z" />
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white-opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"  >
+                                  <path stroke-linecap="round"   d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.908c.969 0 1.371 1.24.588 1.81l-3.977 2.892a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.539 1.118L12 17.75l-3.977 2.892c-.784.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.364-1.118L3.66 10.1c-.783-.57-.381-1.81.588-1.81h4.908a1 1 0 00.95-.69l1.518-4.674z" />
                               </svg>
                           </div>
                           <h2 className="text-2xl font-semibold ml-4 ">Our mission</h2>

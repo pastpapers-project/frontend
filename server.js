@@ -16,3 +16,5 @@ app.prepare().then(() => {
     console.log(`> Ready on port ${port}`);
   });
 });
+
+

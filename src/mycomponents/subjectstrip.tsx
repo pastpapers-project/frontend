@@ -10,7 +10,7 @@ export const SubjectStrip = () => {
     <div className="h-[10rem] rounded-md flex flex-col antialiased bg-transparent dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
       <InfiniteMovingCards
         items={subjects}
-        direction="right"
+        direction="left"
         speed="slow"
       />
     </div>

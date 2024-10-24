@@ -3,7 +3,7 @@ import { SubjectStrip } from "./subjectstrip";
 
 export const Intro = () => {
   return (
-    <div className="min-h-screen bg-cover bg-[url('./public/img2.png')] relative">
+    <div className="min-h-screen bg-cover bg-[url('./public/img2.jpg')] relative">
       {/* Main content wrapper - centered vertically and horizontally */}
       <div className="absolute inset-0 flex flex-col justify-center items-center px-4">
         {/* Top banner */}

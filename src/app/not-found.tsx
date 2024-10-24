@@ -9,7 +9,7 @@ export default function notfound() {
       <div className="bg-black min-h-screen flex flex-col">
         <Navbar />
         
-        <main className="flex-grow bg-cover bg-center bg-[url('./public/img1.png')]">
+        <main className="flex-grow bg-cover bg-center bg-[url('./public/img1.jpg')]">
           <div className="backdrop-blur-xl min-h-screen w-full flex items-center justify-center p-4">
             <div className="container mx-auto flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-16 py-8">
               {/* Content Section */}
