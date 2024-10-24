@@ -2,7 +2,8 @@
 const nextConfig = {
     output: 'standalone',
     experimental: {
-      outputFileTracingRoot: undefined
+      outputFileTracingRoot: undefined,
+      appDir: true
     },
     // Disable tracing to prevent the trace file issue
     outputFileTracing: false,
