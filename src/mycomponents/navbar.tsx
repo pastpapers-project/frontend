@@ -51,12 +51,12 @@ const menuItems: MenuItem[] = [
     submenu: [
       {
         title: "O Levels",
-        href: "/pastpapers/o-levels",
+        href: "/pastpapers/olevels",
         description: "Access O Level past papers and resources.",
       },
       {
         title: "A Levels",
-        href: "/pastpapers/a-levels",
+        href: "/pastpapers/alevels",
         description: "Explore A Level past papers and study materials.",
       },
     ],
@@ -66,12 +66,12 @@ const menuItems: MenuItem[] = [
     submenu: [
       {
         title: "O Levels AI",
-        href: "/pastprep-ai/o-levels",
+        href: "/pastprep-ai/olevels",
         description: "AI-powered assistance for O Level studies.",
       },
       {
         title: "A Levels AI",
-        href: "/pastprep-ai/a-levels",
+        href: "/pastprep-ai/alevels",
         description: "Advanced AI tools for A Level preparation.",
       },
     ],
@@ -81,12 +81,12 @@ const menuItems: MenuItem[] = [
     submenu: [
       {
         title: "O Levels Solver",
-        href: "/solve/o-levels",
+        href: "/solve/olevels",
         description: "Interactive O Level past paper solving platform.",
       },
       {
         title: "A Levels Solver",
-        href: "/solve/a-levels",
+        href: "/solve/alevels",
         description: "Comprehensive A Level problem-solving tools.",
       },
     ],
