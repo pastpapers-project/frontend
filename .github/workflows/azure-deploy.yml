@@ -25,7 +25,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker-practice/actions-build-and-push@master
       with:
-        image: your-docker-username/your-image-name
+        image: yousufahmed/pastprep
         tag: ${{ github.sha }}
         
     - name: Deploy to Azure Web App
@@ -33,4 +33,4 @@ jobs:
       with:
         app-name: pastprep
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: your-docker-username/your-image-name:${{ github.sha }}
+        images: yousufahmed/pastprep:${{ github.sha }}
