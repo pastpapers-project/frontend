@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useState, useRef, useEffect } from 'react';
 import { Input } from "@/mycomponents/input";
-import PastPrepImage from '../app/public/PastPrep.png';
+import PastPrepImage from '../../public/PastPrep.png';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 
@@ -89,7 +89,7 @@ export default function PastPrepAI() {
 
   return (
     <ScrollArea className="h-screen text-white">
-      <div className="absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('./public/img1.jpg')] before:bg-cover before:[background-size:170%] before:[transform:rotate(180deg)] before:[transform-origin:center_center] before:-z-10">
+      <div className="absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/img1.jpg')] before:bg-cover before:[background-size:170%] before:[transform:rotate(180deg)] before:[transform-origin:center_center] before:-z-10">
       </div>
       <div className="backdrop-blur-3xl min-h-screen w-screen">
         <Navbar />

@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import icon from "@/app/public/PastPrep.png";
+// import icon from "/PastPrep.png";
 import Image from "next/image";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -22,7 +22,8 @@ export const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="h-12 w-12 relative">
-                <Image src={icon} alt="PastPrep Logo" className="object-contain" />
+                <Image src="/PastPrep.png" alt="PastPrep Logo" width={48} height={48} className="object-contain" />
+
                 </div>
                 <h2 className="text-2xl md:text-4xl font-bold">Pastprep</h2>
               </div>

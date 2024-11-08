@@ -4,7 +4,7 @@ import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfi
 
 export const Value = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center  bg-center px-4 py-16 md:py-32 bg-[url('./public/img2.jpg')] bg-cover">
+    <div className="min-h-screen flex flex-col justify-center items-center  bg-center px-4 py-16 md:py-32 bg-[url('/img2.jpg')] bg-cover">
       {/* Header Section */}
       <div className="text-xs text-white rounded-xl h-8 w-16 border border-gray-600 flex items-center justify-center">
         Value

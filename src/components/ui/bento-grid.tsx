@@ -36,15 +36,15 @@ export const BentoGridItem = ({
   const backgroundImageClass = (() => {
     switch (index) {
       case 1:
-        return "bg-[url('./public/images/ai.jpg')]";
+        return "bg-[url('/images/ai.jpg')]";
       case 2:
-        return "bg-[url('./public/images/largest.jpg')]";
+        return "bg-[url('/images/largest.jpg')]";
       case 3:
-        return "bg-[url('./public/images/bookmark.jpg')]";
+        return "bg-[url('/images/bookmark.jpg')]";
       case 4:
-        return "bg-[url('./public/images/check.jpg')]";
+        return "bg-[url('/images/check.jpg')]";
       default:
-        return "bg-[url('./public/images/ai.jpg')]";
+        return "bg-[url('/images/ai.jpg')]";
     }
   })();
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from "next/image";
-import icon from "@/app/public/PastPrep.png";
 import { appname } from "@/app/appconfig/config";
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -119,7 +118,7 @@ export const Navbar: React.FC = () => {
         {/* Left Section: Logo and App Name */}
         <Link href="/">
           <div className="flex items-center cursor-pointer">
-            <Image className="h-8 w-auto" src={icon} alt="Logo" />
+            <Image className="h-8 w-auto" src="/PastPrep.png" width={48} height={48} alt="Logo" />
             <p className="text-white font-bold text-2xl ml-2">{appname}</p>
           </div>
         </Link>

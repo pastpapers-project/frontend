@@ -12,7 +12,7 @@ export default function Contact() {
     <ScrollArea className="h-screen text-white">
       <div className="bg-black h-full w-screen">
         <Navbar />
-        <div className="h-screen bg-cover bg-[url('./public/img2.jpg')] ">
+        <div className="h-screen bg-cover bg-[url('/img2.jpg')] ">
             <div className="backdrop-blur-3xl h-screen w-screen flex flex-col justify-center items-center">
             <div className="flex flex-col items-center">
               <p className="text-7xl mb-4">Contact Us</p>
