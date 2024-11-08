@@ -44,3 +44,35 @@ export default function RootLayout({
     </html>
   );
 }
+
+
+
+// I'll help you with the Azure CLI commands to containerize your web app and revert it back. Based on your service details, here's what you need:
+// To convert your web app to container-based deployment:
+// bashCopy# First, configure the web app to use container
+// az webapp config set --name pastprep \
+//     --resource-group yousuf4594_group \
+//     --linux-fx-version "DOCKER|node:20-lts"
+
+// # Enable container deployment
+// az webapp config container set --name pastprep \
+//     --resource-group yousuf4594_group \
+//     --docker-custom-image-name node:20-lts \
+//     --docker-registry-server-url https://index.docker.io
+// To revert back to code-based deployment:
+// bashCopy# Reset the web app back to Node.js runtime
+// az webapp config set --name pastprep \
+//     --resource-group yousuf4594_group \
+//     --linux-fx-version "NODE|20-lts"
+
+// # Clear container settings
+// az webapp config container delete --name pastprep \
+//     --resource-group yousuf4594_group
+// These commands:
+
+// Use your exact resource group name (yousuf4594_group)
+// Target your web app name (pastprep)
+// Maintain the same Node.js version (20-lts) you're currently using
+
+// Make sure you have Azure CLI installed and you're logged in before running these commands. Also, backup your application before making these changes.
+// Would you like me to explain any part of these commands in more detail?
