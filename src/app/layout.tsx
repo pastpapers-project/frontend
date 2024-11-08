@@ -47,7 +47,6 @@ export default function RootLayout({
 
 
 
-
 // I'll help you with the Azure CLI commands to containerize your web app and revert it back. Based on your service details, here's what you need:
 // To convert your web app to container-based deployment:
 // bashCopy# First, configure the web app to use container
