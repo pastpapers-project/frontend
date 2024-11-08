@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import Link from 'next/link';
 
+
 export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
   const getGradientByType = (type: string) => {
     const gradients: { [key: string]: string } = {
