@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Use a lighter image to serve the app
-FROM node:20-alpine AS runner
+FROM node:20.x AS runner
 
 # Set working directory
 WORKDIR /app
