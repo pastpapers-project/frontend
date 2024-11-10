@@ -50,12 +50,12 @@ const menuItems: MenuItem[] = [
     submenu: [
       {
         title: "O Levels",
-        href: "/pastpapers/olevels",
+        href: "/past-papers/olevels",
         description: "Access O Level past papers and resources.",
       },
       {
         title: "A Levels",
-        href: "/pastpapers/alevels",
+        href: "/past-papers/alevels",
         description: "Explore A Level past papers and study materials.",
       },
     ],
