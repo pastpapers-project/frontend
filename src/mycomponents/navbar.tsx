@@ -92,7 +92,7 @@ const menuItems: MenuItem[] = [
   },
   {
     label: "Contact Us",
-    href: "/contact",
+    href: "/contact-us",
   },
 ];
 
