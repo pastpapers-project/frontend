@@ -53,7 +53,7 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {selectedCourse?.files.map((file: any, index: number) => (
           <Link 
-            href={`/pastpapers/papers/${file.pid}`}
+            href={`/past-papers/papers/${file.pid}`}
             key={file.pid}
           >
             <Card className="flex flex-col rounded-xl overflow-hidden border-[0.1px] border-gray-300 border-opacity-20 bg-white bg-opacity-10 hover:bg-opacity-0 transition-colors duration-200 cursor-pointer">

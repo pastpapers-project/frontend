@@ -26,13 +26,17 @@ import { Progress } from "@/components/ui/progress";
 import { PaperSearch } from "@/mycomponents/pastpapersSearch";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     pid: string;
-  };
+  }>;
 }
 
 
-export default function PaperPage({ params }: PageProps) {
+
+export default async function PaperPage({ params }: PageProps) {
+
+  const { pid } = await params;
+
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isTimeUp, setIsTimeUp] = useState(false);
@@ -130,7 +134,7 @@ export default function PaperPage({ params }: PageProps) {
     setProgress(100); // Reset to 100%
   };
 
-  const pidNumber = parseInt(params.pid, 10);
+  const pidNumber = parseInt((await params).pid, 10);
 
   let file = null;
   let currentCourse = null;

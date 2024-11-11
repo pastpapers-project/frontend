@@ -2,6 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import { appname } from "@/app/appconfig/config";
 import Link from 'next/link';
+import { useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   NavigationMenu,
@@ -11,8 +12,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger, 
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
 import { Menu, Coffee } from "lucide-react";
+
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
 
 const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
   <li>
@@ -160,8 +175,10 @@ export const Navbar: React.FC = () => {
 
         {/* Right Section: Login/Signup */}
         <div className="hidden lg:flex space-x-2">
-          <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white rounded">Login</Button>
-          <Button variant="outline" className="text-black border-white hover:bg-transparent hover:text-white rounded">Signup</Button>
+          {/* <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white rounded">Login</Button> */}
+
+          <AlertDialogDemo/>
+          {/* <Button variant="outline" className="text-black border-white hover:bg-transparent hover:text-white rounded">Signup</Button> */}
         </div>
 
         {/* Mobile Menu */}
@@ -223,3 +240,37 @@ export const Navbar: React.FC = () => {
 };
 
 export default Navbar;  
+
+
+
+
+function AlertDialogDemo() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline" className="text-black flex items-center">
+          <img
+            src="https://img.icons8.com/?size=100&id=85834&format=png&color=000000"
+            alt="Google Icon"
+            className="w-5 h-5 mr-2"
+          />
+          Sign in with Google
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Sign in with Google</AlertDialogTitle>
+          <AlertDialogDescription>
+            By signing in, you agree to our terms and conditions.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction > 
+            Continue with Google
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
