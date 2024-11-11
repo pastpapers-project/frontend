@@ -176,8 +176,18 @@ export const Navbar: React.FC = () => {
         {/* Right Section: Login/Signup */}
         <div className="hidden lg:flex space-x-2">
           {/* <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white rounded">Login</Button> */}
-
-          <AlertDialogDemo/>
+          <Button variant="outline" className="text-black flex items-center">
+            <Link href="/auth/login" className="flex items-center">
+              <img
+                src="https://img.icons8.com/?size=100&id=85834&format=png&color=000000"
+                alt="Google Icon"
+                className="w-5 h-5 mr-2"
+              />
+              Sign in with Google
+            </Link>
+          </Button>
+          
+          {/* <AlertDialogDemo/> */}
           {/* <Button variant="outline" className="text-black border-white hover:bg-transparent hover:text-white rounded">Signup</Button> */}
         </div>
 

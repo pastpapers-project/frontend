@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const Footer = () => {
   return (
     <footer className="w-full">
-      <Separator className="bg-gray-600" />
+      <Separator className="bg-white bg-opacity-10" />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Company Info Section */}
@@ -53,9 +53,9 @@ export const Footer = () => {
             </div>
 
             {/* Social Links */}
-            <div className="space-y-4">
+            <div className="space-y-4 text-right">
               <h3 className="text-xl md:text-2xl font-semibold">Follow Us</h3>
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-end">
                 <a 
                   href="#" 
                   className="p-2 border border-gray-600 rounded-full hover:bg-gray-100 transition-colors"
@@ -72,6 +72,7 @@ export const Footer = () => {
                 </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>

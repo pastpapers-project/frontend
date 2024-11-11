@@ -17,7 +17,7 @@ const LoginForm = () => {
   return (
     <div className="flex items-center justify-center min-h-screen h-screen bg-cover bg-[url('/img1.jpg')]">
       <div className="backdrop-blur-3xl h-screen w-screen flex flex-col justify-center items-center">
-        <Card className="w-full max-w-sm">
+        <Card className="w-full max-w-sm bg-white  rounded-xl shadow-[0_0_25px_rgba(0,0,0,0.5)] border-[0.5px] border-white border-opacity-10">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
             <CardDescription className="text-center">
