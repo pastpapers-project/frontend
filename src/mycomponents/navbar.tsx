@@ -207,15 +207,19 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none">
-                  <Avatar className="h-8 w-8 border border-white/20">
-                    <AvatarImage 
-                      src={session.user?.image || ''} 
-                      alt={session.user?.name || ''} 
-                    />
-                    <AvatarFallback>
-                      {session.user?.name?.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+                <Avatar className="h-8 w-8 ">
+                  <AvatarImage 
+                    src={session?.user?.image || ''} 
+                    alt={session?.user?.name || ''}
+                    onError={(e) => {
+                      console.error('Avatar image failed to load:', session?.user?.image);
+                      e.currentTarget.src = ''; // Clear the source to show fallback
+                    }}
+                  />
+                  <AvatarFallback className='bg-white text-black'>
+                    {session?.user?.name?.charAt(0)?.toUpperCase() || '?'}
+                  </AvatarFallback>
+                </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[200px]">
                   <DropdownMenuItem className="cursor-default">
@@ -228,7 +232,7 @@ export const Navbar: React.FC = () => {
                     Settings
                   </DropdownMenuItem>
                   <DropdownMenuItem >
-                    My Bookmarks
+                    Saved papers
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => signOut()}>
                     Sign Out

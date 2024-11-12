@@ -1,5 +1,5 @@
 // LoginForm.jsx
-// 'use client'
+'use client'
 
 import React from 'react';
 import { useState } from "react";
@@ -17,8 +17,8 @@ import { useRouter } from 'next/navigation';
 import LoginForm from '@/mycomponents/loginForm';
 
 
-export default async function LoginPage() {
-  const session = await getServerSession(authOptions)
+export default function LoginPage() {
+  // const session = await getServerSession(authOptions)
   
   // Redirect to dashboard/home if already authenticated
   // if (session) {
