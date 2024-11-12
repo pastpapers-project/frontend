@@ -1,9 +1,21 @@
+'use client'
 import React from 'react';
 import Image from "next/image";
 import { appname } from "@/app/appconfig/config";
 import Link from 'next/link';
 import { useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { 
+ DropdownMenu, 
+ DropdownMenuContent, 
+ DropdownMenuItem, 
+ DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu"
+
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -127,6 +139,11 @@ const MobileMenuItem: React.FC<{ item: SubMenuItem }> = ({ item }) => (
 );
 
 export const Navbar: React.FC = () => {
+
+  const { data: session } = useSession();
+
+
+
   return (
     <div className="fixed w-full bg-transparent backdrop-blur-lg z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -174,22 +191,53 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Right Section: Login/Signup */}
-        <div className="hidden lg:flex space-x-2">
-          {/* <Button variant="ghost" className="text-white hover:bg-white/10 hover:text-white rounded">Login</Button> */}
-          <Button variant="outline" className="text-black flex items-center">
-            <Link href="/auth/login" className="flex items-center">
-              <img
-                src="https://img.icons8.com/?size=100&id=85834&format=png&color=000000"
-                alt="Google Icon"
-                className="w-5 h-5 mr-2"
-              />
-              Sign in with Google
-            </Link>
-          </Button>
-          
-          {/* <AlertDialogDemo/> */}
-          {/* <Button variant="outline" className="text-black border-white hover:bg-transparent hover:text-white rounded">Signup</Button> */}
-        </div>
+        <div className="hidden lg:flex space-x-2 items-center">
+          {!session ? (
+            <Button variant="outline" className="text-black flex items-center">
+              <Link href="/auth/login" className="flex items-center">
+                <img
+                  src="https://img.icons8.com/?size=100&id=85834&format=png&color=000000"
+                  alt="Google Icon"
+                  className="w-5 h-5 mr-2"
+                />
+                Sign in with Google
+              </Link>
+            </Button>
+          ) : (
+            <div className="flex items-center gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="focus:outline-none">
+                  <Avatar className="h-8 w-8 border border-white/20">
+                    <AvatarImage 
+                      src={session.user?.image || ''} 
+                      alt={session.user?.name || ''} 
+                    />
+                    <AvatarFallback>
+                      {session.user?.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[200px]">
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex flex-col space-y-1">
+                      <p className="font-medium">{session.user?.name}</p>
+                      <p className="text-sm text-muted-foreground">{session.user?.email}</p>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem >
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem >
+                    My Bookmarks
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
+          </div>
 
         {/* Mobile Menu */}
         <Sheet>

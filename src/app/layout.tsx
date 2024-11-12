@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "./globals.css"; 
+import Providers from "./providers";
+import AuthProvider from './providers'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,7 +42,9 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+ 
+      <AuthProvider>{children}</AuthProvider>
+  
       </body>
     </html>
   );

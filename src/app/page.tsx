@@ -7,7 +7,18 @@ import { Value } from "@/mycomponents/value";
 import { Faq } from "@/mycomponents/faq";
 import { Footer } from "@/mycomponents/footer";
 
-export default function Home() {
+// import { getServerSession } from 'next-auth/next'
+// import { authOptions } from './api/auth/[...nextauth]/route'
+// import { redirect } from 'next/navigation'
+
+
+export default async function Home() {
+  // const session = await getServerSession(authOptions)
+
+  // if (!session) {
+  //   redirect('/auth/login')
+  // }
+
   return (
     <ScrollArea className="h-screen text-white">
       <div className="bg-black h-full w-screen">
