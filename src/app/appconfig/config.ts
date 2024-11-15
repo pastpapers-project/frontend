@@ -15,9 +15,10 @@ export const samplesubjects = [
   { name: "Computer Science", icon: ComputerIcon },
 ];
 export const faq = [
-  { q: "xyz?", a: "yes" },
-  { q: "pqr?", a: "No" },
-  { q: "abc?", a: "Maybe" },
+  { q: "What are the key differences between the free and paid tiers?", a: "The free tier allows access to past papers with limited AI tokens, while the premium tier provides unlimited tokens and access to Pastprep paper solver." },
+  { q: "What subjects and exam boards are covered?", a: "Pastprep covers all subjects for O and A levels currently, making it a comprehensive exam preparation resource." },
+  { q: "What kind of support and guidance does Pastprep provides?", a: "PastPrep AI provides insights from pastpaper exams, including common question types, recurring topics, marking schemes, and examiner feedback, to provide tailored guidance for exam success." },
+  { q: "Is Pastprep available on Android and IOS devices?", a: "Pastprep is available as a Web-based platform for now, accessible on Android and iOS devices as well as personal computers. This ensures students can prepare and practice for exams across multiple devices" },
 ];
 export interface Course {
   name: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,36 +10,23 @@ import PrivacyPolicyDialog from '@/mycomponents/privacyPolicy';
 import TermsAndConditionsDialog from '@/mycomponents/termsConditions';
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'  
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
+import { UserData } from '../types/user';
+import { createUser, getUser } from '@/utils/userService';
 
 
 const LoginForm = () => {
 
-
-    const router = useRouter();
-    const { data: session, status } = useSession();
-  
-    React.useEffect(() => {
-
-      console.log('Login error');
-      if (status === 'authenticated') {
-        router.push('/');
-      }
-    }, [status, router]);
-  
     const handleGoogleSignIn = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
-        await signIn('google', {
-          callbackUrl: '/',
-          redirect: true
-        });
+        await signIn("google", { callbackUrl: "/" });
       } catch (error) {
-        console.error('Login error:', error);
+        console.error("Login error:", error);
       }
     };
+    
   
     return (
       <div className="flex items-center justify-center min-h-screen h-screen bg-cover bg-[url('/img1.jpg')]">

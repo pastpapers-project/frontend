@@ -11,6 +11,7 @@ import { Input } from "@/mycomponents/input";
 import PastPrepImage from '../../public/PastPrep.png';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
+import { useSearchParams } from "next/navigation";
 
 export interface Message {
   role: 'user' | 'assistant';
@@ -24,6 +25,44 @@ export default function PastPrepAI() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course>();
+
+  const searchParams = useSearchParams();
+  const initialInput = searchParams.get('pageInput');
+  const hasInitialInputProcessed = useRef(false);
+
+
+  useEffect(() => {
+    if (initialInput && !hasInitialInputProcessed.current) {
+      hasInitialInputProcessed.current = true; // Mark it as processed.
+      setInput(initialInput);
+      autoSubmit(initialInput);
+      setInput('');
+    }
+  }, [initialInput]);
+
+  const autoSubmit = async (message: string) => {
+    const userMessage: Message = { role: 'user', content: message };
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [userMessage] }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+
+      const assistantMessage: Message = { role: 'assistant', content: data.response };
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Failed to fetch response:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -40,51 +79,8 @@ export default function PastPrepAI() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      role: 'user',
-      content: input.trim(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
+    await autoSubmit(input.trim());
     setInput('');
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: [...messages, userMessage],
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.response,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-      
-      setTimeout(() => {
-        if (scrollAreaRef.current) {
-          const scrollElement = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-          if (scrollElement) {
-            scrollElement.scrollTop = scrollElement.scrollHeight;
-          }
-        }
-      }, 100);
-
-    } catch (error) {
-      console.error('Failed to fetch response:', error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (

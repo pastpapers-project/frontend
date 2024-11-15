@@ -10,18 +10,21 @@ const publicRoutes = [
   'favicon.ico',
   'about',
   'contact',
-  // add other public routes here
 ]
 
 const publicPattern = `((?!${publicRoutes.join('|')}).*)`
-
+  
 export default withAuth(
   function middleware(req) {
+    // console.log("Middleware Session Token: ", req.cookies);
     return NextResponse.next()
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token
+      authorized: ({ token }) => {
+        // console.log("Session Token Authorization: ", token);
+        return !!token;
+      },
     },
     pages: {
       signIn: "/auth/login",
@@ -31,10 +34,9 @@ export default withAuth(
 // matcher: [`/${publicPattern}`]
 export const config = {
   matcher: [
-                     // Home page
-    "/dashboard/:path*",  // Dashboard and all its sub-routes
-    "/profile/:path*",    // Profile and all its sub-routes
-    "/settings/:path*",   // Settings and all its sub-routes
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/settings/:path*",
     "/past-papers/:path*",
     "/pastprep-ai/:path*",
     "/solve/:path*",

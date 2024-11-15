@@ -1,3 +1,4 @@
+// src/mycomponents/courseScreen.tsx
 import React from 'react';
 import {
   Breadcrumb,
@@ -11,9 +12,13 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 
 export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
+
+  const router = useRouter();
+
   const getGradientByType = (type: string) => {
     const gradients: { [key: string]: string } = {
       'Question Paper': 'bg-gradient-to-r from-red-400 to-red-300',
@@ -23,6 +28,12 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
     };
     return gradients[type] || gradients['default'];
   };
+
+
+  const handlePaperClick = (pid: string) => {
+    router.push(`/past-papers/papers/${pid}`);
+  };
+
 
   return (
     <div className="space-y-6 py-4 lg:py-8">
@@ -52,9 +63,10 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {selectedCourse?.files.map((file: any, index: number) => (
-          <Link 
-            href={`/past-papers/papers/${file.pid}`}
+          <div 
             key={file.pid}
+            onClick={() => handlePaperClick(file.pid)}
+            className="cursor-pointer"
           >
             <Card className="flex flex-col rounded-xl overflow-hidden border-[0.1px] border-gray-300 border-opacity-20 bg-white bg-opacity-10 hover:bg-opacity-0 transition-colors duration-200 cursor-pointer">
               <div className={`h-20 lg:h-24 ${getGradientByType(file.type)} flex items-end justify-start pl-2 pb-2`}>
@@ -80,7 +92,7 @@ export const CourseScreen = ({ selectedCourse }: { selectedCourse: any }) => {
                 </div>
               </CardContent>
             </Card>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

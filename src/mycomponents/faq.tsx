@@ -29,13 +29,13 @@ export const Faq = () => {
           {faq.map((i, index) => (
             <AccordionItem
               key={index}
-              className="bg-white bg-opacity-10 rounded-2xl  mb-2 border-white/20"
+              className="bg-white bg-opacity-10 rounded-2xl  mb-2 border-white/0"
               value={`item-${index + 1}`}
             >
               <AccordionTrigger className="p-3 sm:p-4 text-sm sm:text-base text-left">
                 {i.q}
               </AccordionTrigger>
-              <AccordionContent className="p-3 sm:p-4 text-sm sm:text-base">
+              <AccordionContent className="p-3 sm:p-4 text-sm sm:text-base text-white text-opacity-50">
                 {i.a}
               </AccordionContent>
             </AccordionItem>

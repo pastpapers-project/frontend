@@ -1,12 +1,29 @@
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 import { SubjectStrip } from "./subjectstrip";
+import { Input } from './input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export const Intro = () => {
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter(); // Initialize useRouter
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      if (!input.trim() || isLoading) return;
+
+    // Navigate to the new page with input as a query parameter
+    router.push(`/pastprep-ai/olevels?pageInput=${encodeURIComponent(input.trim())}`);
+    }
+  };
+  
   return (
     <div className="min-h-screen bg-cover bg-[url('/img2.jpg')] relative">
-      {/* Main content wrapper - centered vertically and horizontally */}
       <div className="absolute inset-0 flex flex-col justify-center items-center px-4">
-        {/* Top banner */}
         <div className="border border-gray-600 bg-transparent 
                       h-8 sm:h-10 
                       w-full max-w-[16rem] sm:max-w-[20rem]
@@ -18,7 +35,6 @@ export const Intro = () => {
           Designed for Students. Built for Success.
         </div>
 
-        {/* Main heading */}
         <div className="text-white 
                       text-4xl sm:text-5xl md:text-6xl lg:text-7xl 
                       font-semibold 
@@ -27,41 +43,37 @@ export const Intro = () => {
           Your Ticket to Top Grades
         </div>
 
-        {/* Search bar */}
-        <div className="mt-20 sm:mt-32 md:mt-40 
-                      border border-gray-700 rounded-full 
-                      bg-gray-900 
-                      h-12 sm:h-14 md:h-16
-                      flex items-center 
-                      w-full max-w-[320px] sm:max-w-[384px] md:max-w-[448px]
-                      px-2 sm:px-3">
-          <input 
-            placeholder="Ask your question..."
-            className="mx-2 sm:mx-4 
-                      h-10 sm:h-12 
-                      rounded-full 
-                      bg-gray-900 
-                      text-white 
-                      outline-none 
-                      w-full 
-                      text-sm sm:text-base
-                      placeholder-gray-400" 
+        <form 
+          onSubmit={handleSubmit} 
+          className="mt-16 border border-transparent rounded-full flex items-center h-16 mx-auto w-full lg:max-w-3xl"
+          style={{ backgroundColor: '#1A1919' }}
+        >
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className="mx-4 text-white w-full rounded-full outline-none border-0 focus:ring-0 focus-visible:ring-0 focus:ring-offset-0 focus-within:outline-none focus:outline-none active:outline-none bg-transparent"
+            disabled={isLoading}
+            style={{ 
+              boxShadow: 'none', 
+              backgroundColor: '#1A1919',
+              height: '4rem',
+              minHeight: '4rem',
+              padding: '4px 8px',
+              lineHeight: '2rem'
+            }}
           />
-          <button className="rounded-full sm:rounded-bl-full sm:rounded-br-full sm:rounded-tr-full 
-                          bg-indigo-700 hover:bg-indigo-600 
-                          text-white 
-                          min-w-[4rem] sm:w-20 
-                          h-8 sm:h-10 md:h-12
-                          shadow-2xl 
-                          text-sm sm:text-base
-                          transition-colors
-                          flex items-center justify-center">
+          <Button
+            type="submit"
+            disabled={isLoading || !input.trim()}
+            className="rounded-bl-full rounded-br-full rounded-tr-full bg-[#775BF1] bg-opacity-60 text-white shadow-2xl mr-2 hover:bg-[#775BF1]"
+          >
             Ask AI
-          </button>
-        </div>
+          </Button>
+        </form>
+    
       </div>
 
-      {/* Subject strip - positioned at bottom */}
       <div className="absolute bottom-0 left-0 right-0">
         <SubjectStrip />
       </div>

@@ -1,6 +1,7 @@
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { ReactNode } from 'react';
 
-const PrivacyPolicyDialog = ({ children }) => {
+const PrivacyPolicyDialog = ({ children }: { children: ReactNode }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

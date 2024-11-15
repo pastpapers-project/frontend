@@ -1,6 +1,6 @@
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 
-const TermsAndConditionsDialog = ({ children }) => {
+const TermsAndConditionsDialog = ({ children }: any) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

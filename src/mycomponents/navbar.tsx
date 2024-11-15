@@ -25,20 +25,8 @@ import {
   NavigationMenuTrigger, 
 } from "@/components/ui/navigation-menu";
 import { Menu, Coffee } from "lucide-react";
-
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation';
 
 
 const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
@@ -141,19 +129,19 @@ const MobileMenuItem: React.FC<{ item: SubMenuItem }> = ({ item }) => (
 export const Navbar: React.FC = () => {
 
   const { data: session } = useSession();
-
+  const router = useRouter();
 
 
   return (
     <div className="fixed w-full bg-transparent backdrop-blur-lg z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         {/* Left Section: Logo and App Name */}
-        <Link href="/">
-          <div className="flex items-center cursor-pointer">
+
+          <div className="flex items-center cursor-pointer" onClick={() => router.push("/")}>
             <Image className="h-8 w-auto" src="/PastPrep.png" width={48} height={48} alt="Logo" />
             <p className="text-white font-bold text-2xl ml-2">{appname}</p>
           </div>
-        </Link>
+
 
         {/* Center Section: Navigation for larger screens */}
         <div className="hidden lg:block">
@@ -163,23 +151,30 @@ export const Navbar: React.FC = () => {
                 <NavigationMenuItem key={index} >
                   {item.submenu ? (
                     <>
-                      <NavigationMenuTrigger className="text-white hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200 rounded">
-                        {item.label}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="text-white bg-transparent leading-none no-underline outline-none">
-                        <div className="bg-black-700/70  rounded-2xl ">
-                          <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                            {item.submenu.map((subItem, subIndex) => (
-                              <ListItem key={subIndex} {...subItem} />
-                            ))}
-                          </ul> 
-                        </div>
-                      </NavigationMenuContent>
-                    </>
-                  ) : (
+                    <NavigationMenuTrigger className="text-white hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200 rounded">
+                      {item.label}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="text-white bg-transparent leading-none no-underline outline-none">
+                      <div className="bg-black-700/70 rounded-2xl">
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                          {item.submenu.map((subItem, subIndex) => (
+                            <li key={subIndex} onClick={() => router.push(subItem.href)} className="cursor-pointer">
+                              <div className="block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none hover:backdrop-blur-md transition-colors hover:backdrop-blur-md hover:bg-white/10 transition-all duration-200">
+                                <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                <p className="line-clamp-2 text-sm leading-snug text-white text-opacity-25">
+                                  {subItem.description}
+                                </p>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </NavigationMenuContent>
+                  </>
+                ) : (
                     <NavigationMenuLink
                       className="text-white hover:backdrop-blur-md hover:bg-white/10  px-3 py-2 transition-all duration-200  rounded"
-                      href={item.href}
+                      onClick={() => router.push(item.href!)}
                     >
                       {item.label}
                     </NavigationMenuLink>
@@ -302,37 +297,3 @@ export const Navbar: React.FC = () => {
 };
 
 export default Navbar;  
-
-
-
-
-function AlertDialogDemo() {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline" className="text-black flex items-center">
-          <img
-            src="https://img.icons8.com/?size=100&id=85834&format=png&color=000000"
-            alt="Google Icon"
-            className="w-5 h-5 mr-2"
-          />
-          Sign in with Google
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Sign in with Google</AlertDialogTitle>
-          <AlertDialogDescription>
-            By signing in, you agree to our terms and conditions.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction > 
-            Continue with Google
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}

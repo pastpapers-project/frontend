@@ -2,7 +2,7 @@
 
 import { courses } from "@/app/appconfig/config";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Footer } from "@/mycomponents/footer";
 import { Intro } from "@/mycomponents/intro";
 import Navbar from "@/mycomponents/navbar";
@@ -24,19 +24,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { PaperSearch } from "@/mycomponents/pastpapersSearch";
-
-interface PageProps {
-  params: Promise<{
-    pid: string;
-  }>;
-}
+import { useRouter } from 'next/router';
+import { useToast } from "@/hooks/use-toast";
 
 
 
-export default async function PaperPage({ params }: PageProps) {
 
-  const { pid } = await params;
-
+export default  function PaperPage() {
+  
+ 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [isTimeUp, setIsTimeUp] = useState(false);
@@ -134,8 +130,32 @@ export default async function PaperPage({ params }: PageProps) {
     setProgress(100); // Reset to 100%
   };
 
-  const pidNumber = parseInt((await params).pid, 10);
+  const { toast } = useToast();
+  const handleBookmarkToggle = () => {
+    setIsBookmarked(!isBookmarked);
 
+    // Show a toast based on the new state
+    toast({
+      title: isBookmarked ? 'Removed from bookmarks' : 'This paper is saved',
+      description: isBookmarked
+        ? 'You have removed this paper from your bookmarks.'
+        : 'You have successfully saved this paper to your bookmarks.',
+    });
+  };
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [pid, setUrlId] = useState<string>('');
+
+  useEffect(() => {
+    // Get ID from URL pathname
+    const pathId = pathname.split('/').pop() || '';
+    setUrlId(pathId);
+    
+  }, [pathname]);
+
+
+  const pidNumber = parseInt(pid, 10);
   let file = null;
   let currentCourse = null;
   
@@ -372,7 +392,7 @@ export default async function PaperPage({ params }: PageProps) {
                     variant="outline" 
                     size="icon"
                     className="rounded-xl lg:rounded-2xl bg-white bg-opacity-5 h-12 w-12 lg:h-16 lg:w-16"
-                    onClick={() => setIsBookmarked(!isBookmarked)}
+                    onClick={handleBookmarkToggle}
                   >
                     <Bookmark 
                       className="h-5 w-5" 
