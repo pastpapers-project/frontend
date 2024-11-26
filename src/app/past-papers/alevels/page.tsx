@@ -1,9 +1,10 @@
 'use client'
 
+import { alevels_subjects } from "@/app/appconfig/config";
 import PastPapersPage from "@/mycomponents/pastpaper";
 
 export default function ALevels() {
   return (
-    <PastPapersPage />
+    <PastPapersPage subjects={alevels_subjects} level='alevel'/>
   );
 }

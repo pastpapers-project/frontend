@@ -20,6 +20,75 @@ export const faq = [
   { q: "What kind of support and guidance does Pastprep provides?", a: "PastPrep AI provides insights from pastpaper exams, including common question types, recurring topics, marking schemes, and examiner feedback, to provide tailored guidance for exam success." },
   { q: "Is Pastprep available on Android and IOS devices?", a: "Pastprep is available as a Web-based platform for now, accessible on Android and iOS devices as well as personal computers. This ensures students can prepare and practice for exams across multiple devices" },
 ];
+
+
+
+export const olevels_subjects = [
+  { "course_name": "Food and Nutrition", "course_code": "6065" },
+  { "course_name": "Global Perspectives", "course_code": "2069" },
+  { "course_name": "Islamiyat", "course_code": "2058" },
+  { "course_name": "Bengali", "course_code": "3204" },
+  { "course_name": "Maths", "course_code": "4037" },
+  { "course_name": "Hinduism", "course_code": "2055" },
+  { "course_name": "Sinhala", "course_code": "3205" },
+  { "course_name": "Computer Studies", "course_code": "7010" },
+  { "course_name": "Marine Science", "course_code": "5180" },
+  { "course_name": "CDT Design and Communication", "course_code": "7048" },
+  { "course_name": "Commerce", "course_code": "7100" },
+  { "course_name": "Computer Science", "course_code": "2210" },
+  { "course_name": "Bangladesh Studies", "course_code": "7094" },
+  { "course_name": "Commercial Studies", "course_code": "7101" },
+  { "course_name": "Mathematics", "course_code": "4024" },
+  { "course_name": "Economics", "course_code": "2281" },
+  { "course_name": "Hindi", "course_code": "3195" },
+  { "course_name": "Sociology", "course_code": "2251" },
+  { "course_name": "Agriculture", "course_code": "5038" },
+  { "course_name": "Islamic Religion and Culture", "course_code": "2056" },
+  { "course_name": "Nepali", "course_code": "3202" },
+  { "course_name": "Combined", "course_code": "5129" },
+  { "course_name": "Pakistan Studies", "course_code": "2059" },
+  { "course_name": "Fashion and Textiles", "course_code": "6130" },
+  { "course_name": "English", "course_code": "1123" },
+  { "course_name": "French", "course_code": "3015" },
+  { "course_name": "Islamic Studies", "course_code": "2068" },
+  { "course_name": "Literature in English", "course_code": "2010" },
+  { "course_name": "Physics", "course_code": "5054" },
+  { "course_name": "Setswana", "course_code": "3158" },
+  { "course_name": "Art and Design", "course_code": "6090" },
+  { "course_name": "Chemistry", "course_code": "5070" },
+  { "course_name": "Design and Technology", "course_code": "6043" },
+  { "course_name": "Business Studies", "course_code": "7115" },
+  { "course_name": "German", "course_code": "3025" },
+  { "course_name": "Accounting", "course_code": "7707" },
+  { "course_name": "Home Management", "course_code": "6075" },
+  { "course_name": "Principles of Accounts", "course_code": "7110" },
+  { "course_name": "Geography", "course_code": "2217" },
+  { "course_name": "Environmental Management", "course_code": "5014" },
+  { "course_name": "Arabic", "course_code": "3180" },
+  { "course_name": "Metalwork", "course_code": "6040" },
+  { "course_name": "Biology", "course_code": "5090" },
+  { "course_name": "1991", "course_code": "2158" },
+  { "course_name": "Religious Studies", "course_code": "2048" }
+]
+
+export const alevels_subjects = [
+  { "course_name": "Urdu", "course_code": "9686" },
+  { "course_name": "Marine Science", "course_code": "9693" },
+  { "course_name": "Language", "course_code": "8679" },
+  { "course_name": "Thinking Skills", "course_code": "9694" },
+  { "course_name": "Psychology", "course_code": "9698" },
+  { "course_name": "Biology BES", "course_code": "9184" },
+  { "course_name": "Sociology", "course_code": "9699" },
+  { "course_name": "Law", "course_code": "9084" },
+  { "course_name": "Physics", "course_code": "9702" },
+  { "course_name": "Psychology", "course_code": "9990" },
+  { "course_name": "Language", "course_code": "8685" },
+  { "course_name": "Accounting", "course_code": "9706" },
+  { "course_name": "Travel and Tourism", "course_code": "9395" },
+  { "course_name": "Physical Education", "course_code": "9396" },
+  { "course_name": "Literature", "course_code": "8673" }
+]
+
 export interface Course {
   name: string;
   id: number;

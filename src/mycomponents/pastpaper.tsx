@@ -13,12 +13,24 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
-export default function PastPapersPage() {
 
-  const [selectedCourse, setSelectedCourse] = useState<Course>();
+type grade_level = {
+  course_name: string;
+  course_code: string;
+};
+
+type PastPapersPageProps = {
+  subjects: grade_level[];
+  level: 'olevel' | 'alevel';
+};
+
+export default function PastPapersPage({ subjects, level }: PastPapersPageProps) {
+
+  const [selectedCourse, setSelectedCourse] = useState<grade_level>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
  
+  console.log('Subjects:', subjects); 
   return (
     <ScrollArea className="h-screen text-white">
       <div className="bg-black min-h-screen w-full">
@@ -59,8 +71,10 @@ export default function PastPapersPage() {
               ${isSidebarOpen ? 'opacity-100' : 'opacity-0 lg:opacity-100'}
             `}>
               <CourseScroll 
-                setSelectedCourse={(course: Course) => {
-                  setSelectedCourse(course);
+                subjects={subjects}
+                setSelectedCourse={(subject: grade_level) => {
+                  console.log(subject);
+                  setSelectedCourse(subject);
                   setIsSidebarOpen(false);
                 }}
               />
@@ -86,7 +100,7 @@ export default function PastPapersPage() {
             transition-all duration-300 ease-in-out
             ${isSidebarOpen ? 'lg:opacity-100 blur-none' : 'lg:opacity-100 blur-none'}
           `}>
-            <CourseScreen selectedCourse={selectedCourse} />
+            <CourseScreen selectedCourse={selectedCourse} level={level}/>
           </div>
         </div>
         

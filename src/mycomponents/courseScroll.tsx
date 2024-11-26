@@ -48,23 +48,34 @@ const getIconForCourse = (courseName: string) => {
   return iconSet[iconIndex];
 };
 
-export const CourseScroll = ({ setSelectedCourse }: any) => {
+type SubjectProps = {
+  course_name: string;
+  course_code: string;
+};
+
+interface CourseScrollProps {
+  setSelectedCourse: (subject: SubjectProps) => void;
+  subjects: SubjectProps[];
+}
+
+export const CourseScroll = ({ setSelectedCourse, subjects }: CourseScrollProps) => {
+
   return (
     <ScrollArea className="h-[calc(100vh-200px)] p-4">
       <div className="space-y-2">
-        {courses.map((course) => {
-          const IconComponent = getIconForCourse(course.name);
+      {subjects.map((subject) => {
+          const IconComponent = getIconForCourse(subject.course_name);
           return (
             <div
-              key={course.name}
+              key={subject.course_code}
               className="flex items-center justify-between hover:cursor-pointer p-3 hover:bg-gray-100 font-bold hover:bg-opacity-5 rounded-xl group"
-              onClick={() => { setSelectedCourse(course); }}
+              onClick={() => setSelectedCourse(subject)}
             >
               <div className="flex items-center gap-2">
                 <IconComponent className="w-5 h-5 text-gray-500 group-hover:text-sky-500 transition-colors duration-200" />
-                <p className="group-hover:text-sky-500 transition-colors duration-200 text-sm lg:text-base">{course.name}</p>
+                <p className="group-hover:text-sky-500 transition-colors duration-200 text-sm lg:text-base">{subject.course_name}</p>
               </div>
-              <p className="text-gray-500 text-sm">{course.files.length}</p>
+              <p className="text-gray-500 text-sm">{subject.course_code}</p>
             </div>
           );
         })}

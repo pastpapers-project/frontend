@@ -10,7 +10,7 @@
   "dependencies": {
     "@auth/core": "^0.34.2",
     "@auth/prisma-adapter": "^2.7.3",
-    "@azure/cosmos": "^4.1.1",
+    "@azure/cosmos": "^4.2.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.1",

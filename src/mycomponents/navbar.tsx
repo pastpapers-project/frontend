@@ -208,7 +208,7 @@ export const Navbar: React.FC = () => {
                     alt={session?.user?.name || ''}
                     onError={(e) => {
                       console.error('Avatar image failed to load:', session?.user?.image);
-                      e.currentTarget.src = ''; // Clear the source to show fallback
+                      e.currentTarget.src = '';
                     }}
                   />
                   <AvatarFallback className='bg-white text-black'>

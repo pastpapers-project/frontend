@@ -1,5 +1,5 @@
 'use client'
-
+//src/app/past-papers/papers/[id]/page.tsx
 import { courses } from "@/app/appconfig/config";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -26,18 +26,25 @@ import { Progress } from "@/components/ui/progress";
 import { PaperSearch } from "@/mycomponents/pastpapersSearch";
 import { useRouter } from 'next/router';
 import { useToast } from "@/hooks/use-toast";
+import { PastPaper } from "@/types/paper";
 
 
+export default function PaperPage() {
+  // Paper data state
+  const [paperData, setPaperData] = useState<PastPaper | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [paperTitle, setPaperTitle] = useState('');
+  const [pid, setUrlId] = useState<string>('');
 
-
-export default  function PaperPage() {
-  
- 
+  // UI state
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
-  const [isTimeUp, setIsTimeUp] = useState(false);
+  const [isMobileTimerExpanded, setIsMobileTimerExpanded] = useState(false);
 
+  // Timer state
   const [timerActive, setTimerActive] = useState(false);
+  const [isTimeUp, setIsTimeUp] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [hours, setHours] = useState('00');
@@ -45,9 +52,50 @@ export default  function PaperPage() {
   const [seconds, setSeconds] = useState('00');
   const [progress, setProgress] = useState(100);
 
-  
-  const [isMobileTimerExpanded, setIsMobileTimerExpanded] = useState(false);
+  // Hooks
+  const pathname = usePathname();
+  const { toast } = useToast();
+  const searchParams = useSearchParams();
 
+  // Fetch paper data
+  useEffect(() => {
+    const fetchPaperData = async () => {
+      try {
+        const paperId = pathname.split('/').pop();
+        setUrlId(paperId || '');
+        
+        if (!paperId) {
+          throw new Error('Paper ID not found');
+        }
+
+        const response = await fetch(`/api/paper/${paperId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch paper data');
+        }
+
+        const data = await response.json();
+        setPaperData(data);
+        
+        // Set paper title
+        const title = `${data.pastpaper_type}${
+          data.variant !== "All Variants" ? ` - Variant ${data.variant}` : ''
+        }${data.pastpaper_number ? ` Paper ${data.pastpaper_number}` : ''} (${
+          data.tenure
+        } ${data.year})`;
+        setPaperTitle(title);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch paper data');
+        console.error('Error fetching paper:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPaperData();
+  }, [pathname]);
+
+  // Timer effects
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     
@@ -55,7 +103,6 @@ export default  function PaperPage() {
       interval = setInterval(() => {
         setTimeRemaining((prevTime) => {
           const newTime = prevTime - 1;
-          // Update progress here
           setProgress((newTime / totalTime) * 100);
           if (newTime <= 0) {
             setTimerActive(false);
@@ -72,6 +119,7 @@ export default  function PaperPage() {
     };
   }, [timerActive, timeRemaining, totalTime]);
 
+  // Update timer display
   useEffect(() => {
     const h = Math.floor(timeRemaining / 3600);
     const m = Math.floor((timeRemaining % 3600) / 60);
@@ -82,6 +130,7 @@ export default  function PaperPage() {
     setSeconds(s.toString().padStart(2, '0'));
   }, [timeRemaining]);
 
+  // Timer handlers
   const handleTimeChange = (value: string, setter: React.Dispatch<React.SetStateAction<string>>, max: number) => {
     const cleanValue = value.replace(/\D/g, '');
     const twoDigitValue = cleanValue.slice(0, 2);
@@ -111,7 +160,7 @@ export default  function PaperPage() {
       setTotalTime(totalSeconds);
       setTimerActive(true);
       setIsTimeUp(false);
-      setProgress(100); // Start at 100%
+      setProgress(100);
     }
   };
 
@@ -127,14 +176,11 @@ export default  function PaperPage() {
     setMinutes('00');
     setSeconds('00');
     setIsTimeUp(false);
-    setProgress(100); // Reset to 100%
+    setProgress(100);
   };
 
-  const { toast } = useToast();
   const handleBookmarkToggle = () => {
     setIsBookmarked(!isBookmarked);
-
-    // Show a toast based on the new state
     toast({
       title: isBookmarked ? 'Removed from bookmarks' : 'This paper is saved',
       description: isBookmarked
@@ -143,36 +189,22 @@ export default  function PaperPage() {
     });
   };
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [pid, setUrlId] = useState<string>('');
-
-  useEffect(() => {
-    // Get ID from URL pathname
-    const pathId = pathname.split('/').pop() || '';
-    setUrlId(pathId);
-    
-  }, [pathname]);
-
-
-  const pidNumber = parseInt(pid, 10);
-  let file = null;
-  let currentCourse = null;
-  
-  for (const course of courses) {
-    file = course.files.find(f => f.pid === pidNumber);
-    if (file) {
-      currentCourse = course;
-      break;
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
+      </div>
+    );
   }
 
-  if (!file || !currentCourse) {
-    return <div>Not found</div>;
+  if (error || !paperData) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black text-white">
+        <p className="text-red-500">Error: {error || 'Paper not found'}</p>
+      </div>
+    );
   }
 
-  // Construct the paper title for the breadcrumb
-  const paperTitle = `${file.type}${file.variant > 0 ? ` - Variant ${file.variant}` : ''}${file.paper ? ` Paper ${file.paper}` : ''} (${file.tenure} ${file.year})`;
 
   return (
     <ScrollArea className="h-screen text-white">
@@ -255,13 +287,13 @@ export default  function PaperPage() {
               <BreadcrumbList className="flex-wrap">
                 <BreadcrumbItem>
                   <span className="text-base lg:text-xl text-white text-opacity-70">
-                    O levels
+                  {paperData.course_code.toString().startsWith('9') ? 'A levels' : 'O levels'}
                   </span>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <span className="text-base lg:text-xl text-white text-opacity-70">
-                    {currentCourse.name} ({currentCourse.id})
+                  {paperData.course_name} ({paperData.course_code})
                   </span>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
@@ -423,7 +455,7 @@ export default  function PaperPage() {
           <div className="w-full max-w-7xl px-4 lg:px-2  ">
             <div className="no-border  overflow-hidden">
               <iframe
-                src={file.pdf_url}
+                 src={paperData.pdf_url}
                 className="w-full h-[calc(100vh-280px)] lg:h-[calc(100vh-200px)]"
                 title={paperTitle}
               />
