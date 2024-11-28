@@ -29,7 +29,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: yousufahmed/pastprep:${{ github.sha }}
+        tags: yousufahmed/pastprep:latest
         build-args: |
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
