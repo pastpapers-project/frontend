@@ -12,24 +12,38 @@ import PastPrepImage from '../../public/PastPrep.png';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-export default function PastPrepAI() {
+
+type grade_level = {
+  course_name: string;
+  course_code: string;
+};
+
+type PastPapersPageProps = {
+  subjects: grade_level[];
+  level: 'olevel' | 'alevel';
+};
+
+export default function PastPrepAI({ subjects, level }: PastPapersPageProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const [selectedCourse, setSelectedCourse] = useState<Course>();
+  const [selectedCourse, setSelectedCourse] = useState<grade_level>();
 
   const searchParams = useSearchParams();
   const initialInput = searchParams.get('pageInput');
   const hasInitialInputProcessed = useRef(false);
 
+
+  const { toast } = useToast();
 
   useEffect(() => {
     if (initialInput && !hasInitialInputProcessed.current) {
@@ -41,6 +55,16 @@ export default function PastPrepAI() {
   }, [initialInput]);
 
   const autoSubmit = async (message: string) => {
+
+    if (!selectedCourse) {
+      toast({
+        title: "Course Not Selected",
+        description: "Please select a course before asking a question.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const userMessage: Message = { role: 'user', content: message };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
@@ -49,7 +73,11 @@ export default function PastPrepAI() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [userMessage] }),
+        body: JSON.stringify({ 
+          messages: [userMessage],
+          course: selectedCourse,
+          category: level
+        }),
       });
 
       const data = await response.json();
@@ -59,6 +87,11 @@ export default function PastPrepAI() {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Failed to fetch response:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get AI response. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }
@@ -78,6 +111,16 @@ export default function PastPrepAI() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!selectedCourse) {
+      toast({
+        title: "Course Not Selected",
+        description: "Please select a course before asking a question.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!input.trim() || isLoading) return;
     await autoSubmit(input.trim());
     setInput('');
@@ -117,12 +160,18 @@ export default function PastPrepAI() {
               pt-20 lg:pt-0 
             `}>
               <div className="h-full">
-                <CourseScroll 
-                  setSelectedCourse={(course: Course) => {
-                    setSelectedCourse(course);
-                    setIsSidebarOpen(false);
-                  }}
-                />
+              <CourseScroll 
+                subjects={subjects}
+                setSelectedCourse={(subject: grade_level) => {
+                  // console.log(subject);
+                  setSelectedCourse(subject);
+                  toast({
+                    title: "Course Selected",
+                    description: `You have selected ${subject.course_name}`,
+                  });
+                  setIsSidebarOpen(false);
+                }}
+              />
               </div>
             </div>
 

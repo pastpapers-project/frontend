@@ -1,5 +1,4 @@
 // src/types/paper.ts
-// src/types/paper.ts
 export interface PastPaper {
   id: string;
   course_name: string;
@@ -15,4 +14,16 @@ export interface PastPaper {
   _etag: string;
   _attachments: string;
   _ts: number;
+}
+
+
+export interface SavePaper {
+  id: string;
+  course_name: string;
+  course_code: string;
+  pastpaper_type: string;
+  year: number;
+  tenure: string;
+  variant: string;
+  pdf_url: string;
 }

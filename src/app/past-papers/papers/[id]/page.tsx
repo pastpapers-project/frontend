@@ -27,6 +27,8 @@ import { PaperSearch } from "@/mycomponents/pastpapersSearch";
 import { useRouter } from 'next/router';
 import { useToast } from "@/hooks/use-toast";
 import { PastPaper } from "@/types/paper";
+import { addSavedPaper, getSavedPapers } from "@/utils/userService";
+import { useSession } from "next-auth/react";
 
 
 export default function PaperPage() {
@@ -57,6 +59,19 @@ export default function PaperPage() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
 
+  const { data: session } = useSession();
+
+
+  // const [savedPapers, setSavedPapers] = useState([]);
+  // const [isOpen, setIsOpen] = useState(false);
+
+
+  // const viewSavedPapers = async () => {
+  //   const userData = await getSavedPapers(userId);
+  //   setSavedPapers(userData.savedPapers); // Set the saved papers from the fetched user data
+  //   setIsOpen(true); // Open the dialog
+  // };
+
   // Fetch paper data
   useEffect(() => {
     const fetchPaperData = async () => {
@@ -69,7 +84,7 @@ export default function PaperPage() {
         }
 
         const response = await fetch(`/api/paper/${paperId}`);
-        
+        console.log(response);
         if (!response.ok) {
           throw new Error('Failed to fetch paper data');
         }
@@ -179,28 +194,71 @@ export default function PaperPage() {
     setProgress(100);
   };
 
-  const handleBookmarkToggle = () => {
+  const handleBookmarkToggle = async () => {
     setIsBookmarked(!isBookmarked);
-    toast({
-      title: isBookmarked ? 'Removed from bookmarks' : 'This paper is saved',
-      description: isBookmarked
-        ? 'You have removed this paper from your bookmarks.'
-        : 'You have successfully saved this paper to your bookmarks.',
-    });
+    // Assuming you have the paper object, for example:
+    const paper = {
+      id: paperData?.id,
+      course_name: paperData?.course_name,
+      course_code: paperData?.course_code,
+      pastpaper_type: paperData?.pastpaper_type,
+      year: paperData?.year,
+      tenure: paperData?.tenure,
+      variant: paperData?.variant,
+      pdf_url: paperData?.pdf_url,
+    };
+
+    const validatedPaper = {
+      id: String(paper.id),  // Convert to string
+      course_name: String(paper.course_name),  // Convert to string
+      course_code: String(paper.course_code),  // Convert to string
+      pastpaper_type: String(paper.pastpaper_type),  // Convert to string
+      year: Number(paper.year),  // Convert to integer
+      tenure: String(paper.tenure),  // Convert to string
+      variant: String(paper.variant),  // Convert to string
+      pdf_url: String(paper.pdf_url),  // Convert to string
+    };
+  
+    try {
+      if (isBookmarked) {
+        // Remove bookmark (if it was already bookmarked)
+        // await removeSavedPaper(userId, paper.id); // Assuming removeSavedPaper API function exists
+  
+        toast({
+          title: "Removed from bookmarks",
+          description: "You have removed this paper from your bookmarks.",
+        });
+      } else {
+        console.log(paperData);
+        // Add bookmark (if it was not bookmarked)
+        await addSavedPaper(session?.user?.id, validatedPaper); // Assuming addSavedPaper API function exists
+  
+        toast({
+          title: "This paper is saved",
+          description: "You have successfully saved this paper to your bookmarks.",
+        });
+      }
+    } catch (error) {
+      console.error("Error saving/removing paper from bookmarks:", error);
+      toast({
+        title: "Something went wrong",
+        description: "There was an error while updating your bookmarks.",
+        variant: "destructive",
+      });
+    }
   };
+
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-black">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
-      </div>
-    );
-  }
-
-  if (error || !paperData) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-black text-white">
-        <p className="text-red-500">Error: {error || 'Paper not found'}</p>
+      <div className="h-screen bg-black">
+        <Navbar />
+        <div className="container mx-auto px-4 flex items-center justify-center h-[calc(100vh-64px)]">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-gray-700 rounded w-72"></div>
+            <div className="h-4 bg-gray-700 rounded w-48"></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -283,27 +341,29 @@ export default function PaperPage() {
         <div className="container mx-auto px-4 lg:px-2 flex flex-col lg:flex-row lg:justify-between lg:items-start max-w-7xl pt-20 lg:pt-32 gap-4 lg:gap-0">
           {/* Left Column - Breadcrumb and Description */}
           <div className="flex-1 w-full lg:w-auto">
-            <Breadcrumb>
-              <BreadcrumbList className="flex-wrap">
-                <BreadcrumbItem>
-                  <span className="text-base lg:text-xl text-white text-opacity-70">
-                  {paperData.course_code.toString().startsWith('9') ? 'A levels' : 'O levels'}
-                  </span>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <span className="text-base lg:text-xl text-white text-opacity-70">
-                  {paperData.course_name} ({paperData.course_code})
-                  </span>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <span className="text-base lg:text-xl text-white">
-                    {paperTitle}
-                  </span>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            {paperData && ( // Add conditional rendering
+              <Breadcrumb>
+                <BreadcrumbList className="flex-wrap">
+                  <BreadcrumbItem>
+                    <span className="text-base lg:text-xl text-white text-opacity-70">
+                      {paperData.course_code.toString().startsWith('9') ? 'A levels' : 'O levels'}
+                    </span>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <span className="text-base lg:text-xl text-white text-opacity-70">
+                      {paperData.course_name} ({paperData.course_code})
+                    </span>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <span className="text-base lg:text-xl text-white">
+                      {paperTitle}
+                    </span>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            )}
             <p className="text-gray-500 mt-4 max-w-2xl text-sm lg:text-base">
               Access a vast collection of past papers to help you prepare, practice, and excel in your exams with ease.
             </p>

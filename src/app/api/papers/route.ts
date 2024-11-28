@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
     const { resources } = await container.items.query(querySpec).fetchAll();
     
     // Log the results to help debug
-    console.log('Found papers:', resources.length);
-    console.log('Sample paper:', resources[0]);
+    // console.log('Found papers:', resources.length);
+    // console.log('Sample paper:', resources[0]);
 
     return NextResponse.json(resources);
   } catch (error) {

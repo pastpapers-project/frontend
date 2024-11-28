@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Image from "next/image";
 import { appname } from "@/app/appconfig/config";
 import Link from 'next/link';
@@ -24,9 +24,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger, 
 } from "@/components/ui/navigation-menu";
-import { Menu, Coffee } from "lucide-react";
+import { Menu, Coffee, Download } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { useRouter } from 'next/navigation';
+import { getSavedPapers } from '@/utils/userService';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { SavePaper } from '@/types/paper';
 
 
 const ListItem: React.FC<SubMenuItem> = ({ title, href, description }) => (
@@ -131,6 +134,92 @@ export const Navbar: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const [savedPapers, setSavedPapers] = useState<SavePaper[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+
+  const viewSavedPapers = async (userId: string) => {
+    try {
+      const response = await getSavedPapers(userId);
+      setSavedPapers(response.savedPapers);
+      setIsDialogOpen(true);
+    } catch (error) {
+      console.error('Error fetching saved papers:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('Saved papers:', savedPapers);
+  }, [savedPapers]);
+
+
+  const SavedPapersDialog = () => (    
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        {/* <Button variant="outline">Saved Papers</Button> */}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Saved Papers</DialogTitle>
+          <DialogDescription>
+            Here are your saved papers:
+          </DialogDescription>
+        </DialogHeader>
+        
+        {/* Display saved papers */}
+        <div className="grid gap-4 py-4">
+          {savedPapers.length > 0 ? (
+            <div className="space-y-4">
+              {savedPapers.map((paper, index) => (
+                <div 
+                  key={index} 
+                  className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+                  onClick={() => router.push(`/past-papers/papers/${paper.id}`)}
+                >
+                  <div className="p-4 flex items-center justify-between">
+                    <div className="flex-grow pr-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-semibold ">{paper.course_name}</h3>
+                        <span className="text-sm  bg-white/20 px-2 py-1 rounded-full">
+                          {paper.pastpaper_type}
+                        </span>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm ">
+                          <span className="font-medium">Course Code:</span> {paper.course_code}
+                        </p>
+                        <div className="flex justify-between">
+                          <p className="text-sm ">
+                            <span className="font-medium">Year:</span> {paper.year}
+                          </p>
+                          {paper.variant && (
+                            <span className="text-xs  bg-white/10 px-2 rounded-md">
+                              {paper.variant}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 bg-white/10 rounded-xl">
+              <Coffee className="mx-auto h-12 w-12 mb-4" />
+              <p className="">No saved papers found</p>
+              <p className=" text-sm mt-2">Explore and save some papers to get started</p>
+            </div>
+          )}
+        </div>
+  
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Close</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+ 
 
   return (
     <div className="fixed w-full bg-transparent backdrop-blur-lg z-50">
@@ -226,9 +315,9 @@ export const Navbar: React.FC = () => {
                   <DropdownMenuItem >
                     Settings
                   </DropdownMenuItem>
-                  <DropdownMenuItem >
-                    Saved papers
-                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => viewSavedPapers(session.user?.id)}>
+        Saved papers
+      </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => signOut()}>
                     Sign Out
                   </DropdownMenuItem>
@@ -237,7 +326,7 @@ export const Navbar: React.FC = () => {
             </div>
           )}
           </div>
-
+          <SavedPapersDialog />
         {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
@@ -297,3 +386,8 @@ export const Navbar: React.FC = () => {
 };
 
 export default Navbar;  
+
+
+
+
+
