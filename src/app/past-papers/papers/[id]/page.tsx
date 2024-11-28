@@ -196,6 +196,16 @@ export default function PaperPage() {
 
   const handleBookmarkToggle = async () => {
     setIsBookmarked(!isBookmarked);
+
+    if (!session?.user?.id) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to bookmark papers.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Assuming you have the paper object, for example:
     const paper = {
       id: paperData?.id,
@@ -231,7 +241,7 @@ export default function PaperPage() {
       } else {
         console.log(paperData);
         // Add bookmark (if it was not bookmarked)
-        await addSavedPaper(session?.user?.id, validatedPaper); // Assuming addSavedPaper API function exists
+        await addSavedPaper(session.user.id, validatedPaper); // Assuming addSavedPaper API function exists
   
         toast({
           title: "This paper is saved",
@@ -512,13 +522,17 @@ export default function PaperPage() {
         
         {/* PDF Viewer */}
         <div className="flex justify-center items-center mt-0 mb-32">
-          <div className="w-full max-w-7xl px-4 lg:px-2  ">
-            <div className="no-border  overflow-hidden">
-              <iframe
-                 src={paperData.pdf_url}
-                className="w-full h-[calc(100vh-280px)] lg:h-[calc(100vh-200px)]"
-                title={paperTitle}
-              />
+          <div className="w-full max-w-7xl px-4 lg:px-2">
+            <div className="no-border overflow-hidden">
+              {paperData ? (
+                <iframe
+                  src={paperData.pdf_url}
+                  className="w-full h-[calc(100vh-280px)] lg:h-[calc(100vh-200px)]"
+                  title={paperTitle}
+                />
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
           </div>
         </div>

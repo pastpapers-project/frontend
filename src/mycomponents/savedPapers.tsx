@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";  // Import ScrollArea for scrolling content
 import { getSavedPapers } from "@/utils/userService";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { SavePaper } from "@/types/paper";
  
 export function SavedPapersDialog({ userId }: { userId: string }) {
-  const [savedPapers, setSavedPapers] = useState([]);
+  const [savedPapers, setSavedPapers] = useState<SavePaper[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   // This function will be called when the user wants to view saved papers

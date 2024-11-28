@@ -1,13 +1,12 @@
-// src/app/api/paper/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { CosmosClient } from "@azure/cosmos";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const id = (await params).id
 
     const client = new CosmosClient({
       endpoint: process.env.COSMOS_ENDPOINT || "",

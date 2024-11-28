@@ -7,6 +7,30 @@ import axios from "axios"
 import { loginUser } from "./userService"
 import { toast } from "@/hooks/use-toast"
  
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    }
+  }
+
+  interface User {
+    id: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    sub: string;
+  }
+}
+
+
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
