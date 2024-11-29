@@ -42,4 +42,4 @@ jobs:
           COSMOS_ENDPOINT=${{ secrets.COSMOS_ENDPOINT }}
           COSMOS_KEY=${{ secrets.COSMOS_KEY }}
           QUERY_ENDPOINT_URL=${{ secrets.QUERY_ENDPOINT_URL }}
-          AUTH_TRUST_HOST=${{ secrets.true }}
+          AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}
